@@ -1,0 +1,37 @@
+AxelMelanomaPhD
+	DAI amplitude spearman correlation: 0.4358379397064562
+	amplitude Priority_score_fromDNA spearman correlation: 0.43854566020346325
+	pathogen_similarity recognition_potential kendall correlation: 0.9353453319369401
+	pathogen_similarity recognition_potential spearman correlation: 0.9845804641185962
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.7811308952565402
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.6908524639271961
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.8616560974636301
+	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.5388914479222559
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.4896707851307565
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.675954711991358
+SomaticAndTreatment
+	MixMHCpred_score amplitude spearman correlation: 0.4097824829239241
+	DAI amplitude spearman correlation: 0.4174844704170026
+	DAI Priority_score_fromDNA pearson correlation: 0.4383532658782909
+	DAI Priority_score_fromDNA spearman correlation: 0.4138197367853484
+	amplitude recognition_potential pearson correlation: 0.48801956861101287
+	amplitude Priority_score_fromDNA spearman correlation: 0.45399627072012105
+	pathogen_similarity recognition_potential kendall correlation: 0.9439203680369198
+	pathogen_similarity recognition_potential spearman correlation: 0.9872802776454843
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.7368740217974488
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.6625328257207834
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.8395453241270814
+	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.5213166825520706
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.4876086620665902
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.671711368372943
+merged
+	DAI amplitude spearman correlation: 0.4330835339041571
+	amplitude Priority_score_fromDNA spearman correlation: 0.4395998629073395
+	pathogen_similarity recognition_potential kendall correlation: 0.9365641030578706
+	pathogen_similarity recognition_potential spearman correlation: 0.9849686853303409
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.7750143984529727
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.6873812933372692
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.8591617186076091
+	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.5360650652828419
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.48912291282714454
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6749967041188847

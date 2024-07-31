@@ -1,2 +1,1 @@
-# NeoPrio
-Master Thesis
+VcfFilter in PATH

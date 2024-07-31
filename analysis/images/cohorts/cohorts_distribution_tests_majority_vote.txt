@@ -1,0 +1,42 @@
+MixMHCpred_score KS 0.0002727668435477324 False
+MixMHCpred_score MW 5.653171974152747e-06 False
+
+DAI KS 0.16293484776403 True
+DAI MW 0.28816565167936303 True
+
+amplitude KS 0.09021356920110946 True
+amplitude MW 0.07596362450121498 True
+
+dissimilarity_score KS 1.0 True
+dissimilarity_score MW 0.9326944015801522 True
+
+Selfsimilarity_conserved_binder KS 0.06438319577056617 True
+Selfsimilarity_conserved_binder MW 0.313319273819919 True
+
+IEDB_Immunogenicity KS 0.4302417891707624 True
+IEDB_Immunogenicity MW 0.6692712042658979 True
+
+pathogen_similarity KS 0.9692108204930234 True
+pathogen_similarity MW 0.9732222743703149 True
+
+recognition_potential KS 0.8837074835390187 True
+recognition_potential MW 0.7297253817502078 True
+
+Priority_score_fromDNA KS 0.09059532498085865 True
+Priority_score_fromDNA MW 0.6840800409773857 True
+
+Tcell_predictor KS 0.03153586924281737 False
+Tcell_predictor MW 0.0015518031047268433 False
+
+hex_alignment_score KS 0.4686311691040106 True
+hex_alignment_score MW 0.2697503236271065 True
+
+NetMHC MT IC50 Score KS 1.6256797270083904e-05 False
+NetMHC MT IC50 Score MW 6.500224143456626e-07 False
+
+NetMHCpan MT IC50 Score KS 0.025354319358605437 False
+NetMHCpan MT IC50 Score MW 0.004265505383607024 False
+
+MHCflurry MT IC50 Score KS 0.012053944105820285 False
+MHCflurry MT IC50 Score MW 0.9641493450850055 True
+
