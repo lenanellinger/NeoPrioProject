@@ -1,38 +1,115 @@
 AxelMelanomaPhD
-	DAI amplitude kendall correlation: 0.7119693389944481
-	DAI amplitude spearman correlation: 0.8827671358298455
+	amplitude DAI kendall correlation: 0.7119693389944483
+	amplitude DAI spearman correlation: 0.8827671358298455
+	amplitude Priority_score_fromDNA spearman correlation: 0.4492702691729536
+	amplitude Priority_score_fromRNA spearman correlation: 0.4196008944179143
 	DAI Priority_score_fromDNA pearson correlation: 0.4819380948162604
 	DAI Priority_score_fromDNA spearman correlation: 0.4763471754412213
-	amplitude Priority_score_fromDNA spearman correlation: 0.4492702691729536
+	DAI Priority_score_fromRNA pearson correlation: 0.4491695448561103
+	DAI Priority_score_fromRNA spearman correlation: 0.44436007829429797
+	MixMHCpred_score PRIME_score pearson correlation: 0.8018969841386652
+	MixMHCpred_score PRIME_score kendall correlation: 0.6269727489875485
+	MixMHCpred_score PRIME_score spearman correlation: 0.8217154996143152
 	pathogen_similarity recognition_potential kendall correlation: 0.9252815020331837
 	pathogen_similarity recognition_potential spearman correlation: 0.9776718571881509
+	Priority_score_fromDNA Priority_score_fromRNA pearson correlation: 0.821823456211181
+	Priority_score_fromDNA Priority_score_fromRNA kendall correlation: 0.5859266305596963
+	Priority_score_fromDNA Priority_score_fromRNA spearman correlation: 0.7714505043814461
+	Priority_score_fromDNA Priority_score_imputed_fromDNA pearson correlation: 0.8714499589072744
+	Priority_score_fromDNA Priority_score_imputed_fromDNA kendall correlation: 0.8104075652356272
+	Priority_score_fromDNA Priority_score_imputed_fromDNA spearman correlation: 0.8604559478031223
+	Priority_score_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.7361874599402557
+	Priority_score_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.5211200929347928
+	Priority_score_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.6884340956641583
+	Priority_score_fromRNA Priority_score_imputed_fromDNA pearson correlation: 0.684852137295509
+	Priority_score_fromRNA Priority_score_imputed_fromDNA kendall correlation: 0.48586397531059994
+	Priority_score_fromRNA Priority_score_imputed_fromDNA spearman correlation: 0.6424211527387301
+	Priority_score_fromRNA Priority_score_imputed_fromRNA pearson correlation: 0.8403860081449055
+	Priority_score_fromRNA Priority_score_imputed_fromRNA kendall correlation: 0.7934941303981495
+	Priority_score_fromRNA Priority_score_imputed_fromRNA spearman correlation: 0.8340743477009636
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8619797634496608
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.6575570186528351
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.8321504285256364
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5313001141381933
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7173052502215638
 	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4549093599479591
 	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.471833054178115
 	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6590712949449717
 SomaticAndTreatment
-	DAI amplitude kendall correlation: 0.7187709394935982
-	DAI amplitude spearman correlation: 0.8901650303476347
-	DAI Priority_score_fromDNA pearson correlation: 0.4834580296884531
-	DAI Priority_score_fromDNA spearman correlation: 0.48360072954066147
+	amplitude DAI kendall correlation: 0.7187709394935982
+	amplitude DAI spearman correlation: 0.8901650303476347
 	amplitude recognition_potential pearson correlation: 0.483148465997157
 	amplitude Priority_score_fromDNA spearman correlation: 0.47906191048214053
+	amplitude Priority_score_fromRNA spearman correlation: 0.43496144586591623
+	amplitude Priority_score_imputed_fromRNA spearman correlation: 0.4218459536909339
+	DAI Priority_score_fromDNA pearson correlation: 0.4834580296884531
+	DAI Priority_score_fromDNA spearman correlation: 0.48360072954066147
+	DAI Priority_score_fromRNA pearson correlation: 0.46990358180705
+	DAI Priority_score_fromRNA spearman correlation: 0.4508962870039299
+	DAI Priority_score_imputed_fromRNA pearson correlation: 0.45213520535619506
+	DAI Priority_score_imputed_fromRNA spearman correlation: 0.4249321589271888
+	MixMHCpred_score PRIME_score pearson correlation: 0.8045117384742
+	MixMHCpred_score PRIME_score kendall correlation: 0.6241918423927416
+	MixMHCpred_score PRIME_score spearman correlation: 0.8183102814414537
 	pathogen_similarity recognition_potential kendall correlation: 0.933039603613001
 	pathogen_similarity recognition_potential spearman correlation: 0.9806860855878613
+	Priority_score_fromDNA Priority_score_fromRNA pearson correlation: 0.7894603471444338
+	Priority_score_fromDNA Priority_score_fromRNA kendall correlation: 0.5495146237528661
+	Priority_score_fromDNA Priority_score_fromRNA spearman correlation: 0.7378572932956842
+	Priority_score_fromDNA Priority_score_imputed_fromDNA pearson correlation: 0.9211433256038853
+	Priority_score_fromDNA Priority_score_imputed_fromDNA kendall correlation: 0.906604256031693
+	Priority_score_fromDNA Priority_score_imputed_fromDNA spearman correlation: 0.9243182786071217
+	Priority_score_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.7321536711232599
+	Priority_score_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.5065498131808294
+	Priority_score_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.6834649936747209
+	Priority_score_fromRNA Priority_score_imputed_fromDNA pearson correlation: 0.7083630326505361
+	Priority_score_fromRNA Priority_score_imputed_fromDNA kendall correlation: 0.5117545195005337
+	Priority_score_fromRNA Priority_score_imputed_fromDNA spearman correlation: 0.6859844277019347
+	Priority_score_fromRNA Priority_score_imputed_fromRNA pearson correlation: 0.916002166428279
+	Priority_score_fromRNA Priority_score_imputed_fromRNA kendall correlation: 0.9125189501149313
+	Priority_score_fromRNA Priority_score_imputed_fromRNA spearman correlation: 0.9234690099445656
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.804740064986576
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.5817799408919501
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.768363964849551
+	Priority_score_imputed_fromDNA Tcell_predictor spearman correlation: 0.4193657122166641
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.510500573177321
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.6986280405468419
 	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4047926299126613
 	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.4492894135197333
 	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.630049422431159
 merged
-	DAI amplitude kendall correlation: 0.7128578543390908
-	DAI amplitude spearman correlation: 0.8837613400405793
+	amplitude DAI kendall correlation: 0.7128578543390908
+	amplitude DAI spearman correlation: 0.8837613400405793
+	amplitude Priority_score_fromDNA spearman correlation: 0.451645492157636
+	amplitude Priority_score_fromRNA spearman correlation: 0.42044255208054454
 	DAI Priority_score_fromDNA pearson correlation: 0.48140394184560825
 	DAI Priority_score_fromDNA spearman correlation: 0.4767047864546867
-	amplitude Priority_score_fromDNA spearman correlation: 0.451645492157636
+	DAI Priority_score_fromRNA pearson correlation: 0.45106773579239995
+	DAI Priority_score_fromRNA spearman correlation: 0.44408342566998155
+	DAI Priority_score_imputed_fromRNA pearson correlation: 0.40304907961294795
+	MixMHCpred_score PRIME_score pearson correlation: 0.8023085541920416
+	MixMHCpred_score PRIME_score kendall correlation: 0.6268041792005257
+	MixMHCpred_score PRIME_score spearman correlation: 0.821472720168714
 	pathogen_similarity recognition_potential kendall correlation: 0.926288192180403
 	pathogen_similarity recognition_potential spearman correlation: 0.9780678422074218
+	Priority_score_fromDNA Priority_score_fromRNA pearson correlation: 0.8181720356072535
+	Priority_score_fromDNA Priority_score_fromRNA kendall correlation: 0.5832368843626518
+	Priority_score_fromDNA Priority_score_fromRNA spearman correlation: 0.7690135469542955
+	Priority_score_fromDNA Priority_score_imputed_fromDNA pearson correlation: 0.8746507067346715
+	Priority_score_fromDNA Priority_score_imputed_fromDNA kendall correlation: 0.8180671431062646
+	Priority_score_fromDNA Priority_score_imputed_fromDNA spearman correlation: 0.8655948301670496
+	Priority_score_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.7339532093822393
+	Priority_score_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.5199905766923338
+	Priority_score_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.6881008117439599
+	Priority_score_fromRNA Priority_score_imputed_fromDNA pearson correlation: 0.6862840848734386
+	Priority_score_fromRNA Priority_score_imputed_fromDNA kendall correlation: 0.48847871318270497
+	Priority_score_fromRNA Priority_score_imputed_fromDNA spearman correlation: 0.6467112141032407
+	Priority_score_fromRNA Priority_score_imputed_fromRNA pearson correlation: 0.8470494134610734
+	Priority_score_fromRNA Priority_score_imputed_fromRNA kendall correlation: 0.8030358099085652
+	Priority_score_fromRNA Priority_score_imputed_fromRNA spearman correlation: 0.8416774483725546
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8563818923819694
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.6516945775845441
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.8274648227445581
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5285826336462365
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7149351074696517
 	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.44807098758147657

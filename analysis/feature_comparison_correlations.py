@@ -6,7 +6,7 @@ import sys
 from optparse import OptionParser
   
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features"
 
 def main(argv):
     usage = "usage: python feature_comparison_correlations.py --majority-vote"

@@ -47,10 +47,20 @@ def get_relevant_features_neofox(details=False):
         {
             'name': 'amplitude', 
             'quantile': 'upper',
-            'interval': [0, 10]
+            'interval': [0, 10],
+            'cutoff': {
+                'use_percentage': False,
+                'good_distribution': True,
+                'specific_value': 1
+            }
         },{
             'name': 'DAI', 
             'quantile': 'upper',
+            'cutoff': {
+                'use_percentage': False,
+                'good_distribution': True,
+                'specific_value': 0
+            }
         },{
             'name': 'dissimilarity_score', 
             'quantile': 'upper',
@@ -58,9 +68,17 @@ def get_relevant_features_neofox(details=False):
         },{
             'name': 'IEDB_Immunogenicity', 
             'quantile': 'upper',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': True
+            }
         },{
             'name': 'MixMHCpred_score', 
             'quantile': 'lower',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': True
+            }
         },{
             'name': 'pathogen_similarity', 
             'quantile': 'upper',
@@ -68,34 +86,64 @@ def get_relevant_features_neofox(details=False):
         },{
             'name': 'Selfsimilarity_conserved_binder', 
             'quantile': 'lower',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': False
+            }
         },{
             'name': 'recognition_potential', 
             'quantile': 'upper',
             'interval': [0, 0.54]
         },{
-            'name': 'Priority_score_fromDNA', 
-            'quantile': 'upper'
-        },{
-            'name': 'Priority_score_fromRNA', 
-            'quantile': 'upper'
-        },{
             'name': 'Priority_score_imputed_fromDNA', 
-            'quantile': 'upper'
+            'quantile': 'upper',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': False
+            }
         },{
             'name': 'Priority_score_imputed_fromRNA', 
-            'quantile': 'upper'
+            'quantile': 'upper',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': False
+            }
         },{
             'name': 'Tcell_predictor', 
-            'quantile': 'upper'
+            'quantile': 'upper',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': False
+            }
         },{	
             'name': 'hex_alignment_score', 
-            'quantile': 'upper'
-        #},{
-        #    'name': 'PRIME_score', 
-        #    'quantile': 'upper'
+            'quantile': 'upper',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': True
+            }
+        },{
+            'name': 'PRIME_score', 
+            'quantile': 'lower',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': True
+            }
         },{
             'name': 'Predicted Stability', 
-            'quantile': 'upper'
+            'quantile': 'upper',
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': True
+            }
+        },{
+            'name': 'imputedGeneExpression', 
+            'quantile': 'upper',
+            'interval': [0, 100],
+            'cutoff': {
+                'use_percentage': True,
+                'good_distribution': True
+            }
         }
     ]
     

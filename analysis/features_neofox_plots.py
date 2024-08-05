@@ -9,7 +9,7 @@ from helpers.get_data import get_feature_data, get_relevant_features_neofox
 import sys
 from optparse import OptionParser
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features/neofox"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features/neofox"
 
 def main(argv):
     usage = "usage: python features_neofox_plots.py --majority-vote --use-interval"
@@ -44,7 +44,7 @@ def main(argv):
         else:
             feature_df_hist = feature_df
         sns.histplot(feature_df_hist, kde=True, bins=50)
-        for q, c in zip([0.01, 0.05, 0.1, 0.25, 0.5], ['#a70000', '#ff0000', '#ff5252', '#ff7b7b', '#ffbaba']):
+        for q, c in zip([0.01, 0.05, 0.1, 0.25, 0.5, 0.75], ['#a70000', '#ff0000', '#ff5252', '#ff7b7b', '#ffbaba', '#ffd5d5']):
             if feature['quantile'] == 'upper':
                 q = 1-q
             quant = np.quantile(feature_df, q)

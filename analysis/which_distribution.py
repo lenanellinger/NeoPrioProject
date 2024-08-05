@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from statsmodels.graphics.gofplots import qqplot
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features/neofox/distributions"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features/neofox/distributions"
 
 def main(argv):
     usage = "usage: python features_neofox_plots.py -f <feature> --majority-vote"

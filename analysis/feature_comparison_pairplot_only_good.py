@@ -7,7 +7,7 @@ from itertools import combinations
 import matplotlib.pyplot as plt
 import os
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features"
 
 def main(argv):
     usage = "usage: python feature_comparison_pairplot_only_good.py --majority-vote"

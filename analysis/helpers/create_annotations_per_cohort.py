@@ -3,6 +3,7 @@ import pandas as pd
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
 
+sample_id = 0
 for cohort in os.listdir(directory):
     df = None
     for method in os.listdir(os.path.join(directory, cohort)):
@@ -13,6 +14,7 @@ for cohort in os.listdir(directory):
                 continue
             neofox_filename = os.path.join(directory, cohort, method, sample, "neofox", sample.split("-")[0] + "_neofox_annotations.tsv")
             if not os.path.isfile(neofox_filename):
+                sample_id += 1
                 continue
             neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
             pvacseq_filename = os.path.join(directory, cohort, method, sample, "pVACseq", "MHC_Class_I", sample.split("-")[0] + ".filtered.tsv")
@@ -26,7 +28,8 @@ for cohort in os.listdir(directory):
             if neofox_df.shape[0] != neofox_df_merge.shape[0]:
                 print(cohort, method, sample)
                 print(neofox_df.loc[:, ['Chromosome', 'Start', 'Stop', 'Transcript']])
-            
+            neofox_df_merge['sample_id'] = sample_id
+            sample_id += 1
             if df is None:
                 df = neofox_df_merge
             else:
