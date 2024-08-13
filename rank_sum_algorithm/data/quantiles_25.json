@@ -39,14 +39,6 @@
             0.00030000000000000003
         ]
     },
-    "pathogen_similarity": {
-        "direction": "upper",
-        "quantiles": [
-            0.0,
-            0.0,
-            6e-05
-        ]
-    },
     "Selfsimilarity_conserved_binder": {
         "direction": "lower",
         "quantiles": [
@@ -117,6 +109,30 @@
             0.08356177167500001,
             1.9035580568,
             7.7997702181
+        ]
+    },
+    "NetMHC MT IC50 Score": {
+        "direction": "lower",
+        "quantiles": [
+            35.67,
+            114.35,
+            329.2
+        ]
+    },
+    "NetMHCpan MT IC50 Score": {
+        "direction": "lower",
+        "quantiles": [
+            37.03,
+            118.32499999999999,
+            293.3125
+        ]
+    },
+    "MHCflurry MT IC50 Score": {
+        "direction": "lower",
+        "quantiles": [
+            38.71583559130788,
+            56.94784602129948,
+            96.12738305942952
         ]
     }
 }

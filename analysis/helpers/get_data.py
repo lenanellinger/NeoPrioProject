@@ -45,15 +45,15 @@ def get_relevant_features_neofox(details=False):
     """
     features = [
         {
-            'name': 'amplitude', 
-            'quantile': 'upper',
-            'interval': [0, 10],
-            'cutoff': {
-                'use_percentage': False,
-                'good_distribution': True,
-                'specific_value': 1
-            }
-        },{
+        #    'name': 'amplitude', 
+        #    'quantile': 'upper',
+        #    'interval': [0, 10],
+        #    'cutoff': {
+        #        'use_percentage': False,
+        #        'good_distribution': True,
+        #        'specific_value': 1
+        #    }
+        #},{
             'name': 'DAI', 
             'quantile': 'upper',
             'cutoff': {
@@ -79,10 +79,10 @@ def get_relevant_features_neofox(details=False):
                 'use_percentage': True,
                 'good_distribution': True
             }
-        },{
-            'name': 'pathogen_similarity', 
-            'quantile': 'upper',
-            'interval': [0.99, 1]
+        #},{
+        #    'name': 'pathogen_similarity', 
+        #    'quantile': 'upper',
+        #    'interval': [0.99, 1]
         },{
             'name': 'Selfsimilarity_conserved_binder', 
             'quantile': 'lower',
@@ -108,13 +108,13 @@ def get_relevant_features_neofox(details=False):
                 'use_percentage': True,
                 'good_distribution': False
             }
-        },{
-            'name': 'Tcell_predictor', 
-            'quantile': 'upper',
-            'cutoff': {
-                'use_percentage': True,
-                'good_distribution': False
-            }
+        #},{
+        #    'name': 'Tcell_predictor', 
+        #    'quantile': 'upper',
+        #    'cutoff': {
+        #        'use_percentage': True,
+        #        'good_distribution': False
+        #    }
         },{	
             'name': 'hex_alignment_score', 
             'quantile': 'upper',

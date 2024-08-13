@@ -32,7 +32,7 @@ def main(argv):
             result[feature['name']]['quantiles'].append(quant)
     with open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_' + options.step + '.json', 'w') as f:
         json.dump(result, f, ensure_ascii=False, indent=4)
-        print(result)
+        
 
     
 if __name__ == "__main__":

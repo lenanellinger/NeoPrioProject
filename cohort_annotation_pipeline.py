@@ -160,6 +160,7 @@ def main(argv):
         pvacseq_filtered = pd.read_csv(os.path.join(output_dir_pvacseq, 'MHC_Class_I', sample_name + '.filtered.tsv'), sep='\t', header=0)
         
         # create a neoepitope candidate using the factory
+        # no RNA data given -> only imputed gene expression
         neoepitopes = [NeoepitopeFactory.build_neoepitope(
             mutated_peptide=neoepitope['MT Epitope Seq'],
             wild_type_peptide=neoepitope['WT Epitope Seq'] if neoepitope['Variant Type'] == 'missense' else '',
@@ -168,7 +169,6 @@ def main(argv):
             allele_mhc_i=neoepitope['HLA Allele'],
             organism='human',
             mhc_database=hla_database,
-            rna_expression= None if pd.isna(neoepitope['Gene Expression']) else neoepitope['Gene Expression'],
             rna_variant_allele_frequency=None if pd.isna(neoepitope['Tumor RNA VAF']) else neoepitope['Tumor RNA VAF'],
             dna_variant_allele_frequency=None if pd.isna(neoepitope['Tumor DNA VAF']) else neoepitope['Tumor DNA VAF'],
             Chromosome=neoepitope['Chromosome'],
