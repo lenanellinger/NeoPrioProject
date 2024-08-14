@@ -11,17 +11,9 @@ def calc_qscore(row, columns, number_of_quantiles):
     qscore_series = row[[s for s in columns if s.endswith('_qscore')]]
     return qscore_series.sum(skipna=True) / (number_of_quantiles * (~qscore_series.isnull()).sum())
     
-
-def main(argv):
-    usage = "usage: python neoantigen_prioritization.py "
-    desc = "Prioritizes neoantigens based on neofox features with a rank sum algorithm."
-    parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--pvacseq-filtered-output", action="store", dest="pvacseq_filtered_output", help="Filtered TSV file output of pVACseq")
-    parser.add_option("--neofox-output", action="store", dest="neofox_output", help="TSV file output of neofox")
-    (options, args) = parser.parse_args()
-    
-    pvacseq_df = pd.read_csv(options.pvacseq_filtered_output, sep="\t", header=0)
-    neofox_df = pd.read_csv(options.neofox_output, sep="\t", header=0)
+def rank_sum(pvacseq_filename, neofox_filename):  
+    pvacseq_df = pd.read_csv(pvacseq_filename, sep="\t", header=0)
+    neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
     
     f = open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_25.json')
     features = json.load(f)
@@ -45,6 +37,7 @@ def main(argv):
     
     output_df = annotation_df_prefiltered.loc[:, ['Transcript', 'Chromosome', 'Start', 'Stop'] + [f for f in features]]
     number_of_quantiles = None
+    
     for feature_name in features:
         index = output_df.columns.get_loc(feature_name)
         number_of_quantiles = len(features[feature_name]['quantiles'])
@@ -87,11 +80,23 @@ def main(argv):
       
     # Output  
     output_df['rank_sum'] = output_df[[s for s in list(output_df.columns) if s.endswith('_rank')]].sum(axis=1, skipna=False)
-    output_df['qscore'] = output_df.apply(calc_qscore, axis='columns', args=(list(output_df.columns), number_of_quantiles))
+    output_df['qscore'] = None
+    if not output_df.shape[0] == 0:
+        output_df['qscore'] = output_df.apply(calc_qscore, axis='columns', args=(list(output_df.columns), number_of_quantiles))
 
     output_df = output_df.sort_values(by='rank_sum')
             
-    output_df.to_csv('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/out_test.tsv', sep='\t', index=False, header=True)
+    output_df.to_csv(os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(neofox_filename))), 'rank_sum_out.tsv'), sep='\t', index=False, header=True)
+
+def main(argv):
+    usage = "usage: python neoantigen_prioritization.py "
+    desc = "Prioritizes neoantigens based on neofox features with a rank sum algorithm."
+    parser = OptionParser(usage=usage, description=desc)
+    parser.add_option("--pvacseq-filtered-output", action="store", dest="pvacseq_filtered_output", help="Filtered TSV file output of pVACseq")
+    parser.add_option("--neofox-output", action="store", dest="neofox_output", help="TSV file output of neofox")
+    (options, args) = parser.parse_args()
+    
+    rank_sum(options.pvacseq_filtered_output, options.neofox_output)
 
     
 if __name__ == "__main__":
