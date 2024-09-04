@@ -3,9 +3,9 @@ import pandas as pd
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
 
-def get_feature_data(majority_vote=True, cohorts=['AxelMelanomaPhD', 'SomaticAndTreatment']):
+def get_feature_data(prefilter=True, cohorts=['AxelMelanomaPhD', 'SomaticAndTreatment']):
     """
-    returns a DataFrame (filtered by majority vote of binding affinity) for given cohorts
+    returns a DataFrame (filtered by mean of binding affinity) for given cohorts
     """
     features_data = None
 
@@ -13,17 +13,11 @@ def get_feature_data(majority_vote=True, cohorts=['AxelMelanomaPhD', 'SomaticAnd
         file = os.path.join(directory, cohort, cohort + "_all.tsv")
         features = pd.read_csv(file, sep="\t", header=0)
         
-        #features['IC50 mean'] = features.loc[:, ['NetMHC MT IC50 Score', 'NetMHCpan MT IC50 Score', 'MHCflurry MT IC50 Score']].mean(axis=1)
-        #features['IC50 median'] = features.loc[:, ['NetMHC MT IC50 Score', 'NetMHCpan MT IC50 Score', 'MHCflurry MT IC50 Score']].median(axis=1)
+        features['IC50 mean'] = features.loc[:, ['NetMHC MT IC50 Score', 'NetMHCpan MT IC50 Score', 'MHCflurry MT IC50 Score']].mean(axis=1)
         features['cohort'] = cohort
         
-        if majority_vote:
-            voting = pd.DataFrame()
-            voting['NetMHC'] = features['NetMHC MT IC50 Score'] < 500
-            voting['NetMHCpan'] = features['NetMHCpan MT IC50 Score'] < 500
-            voting['MHCflurry'] = features['MHCflurry MT IC50 Score'] < 500
-            voting['majority'] = voting.mode(axis=1)[0]
-            features = features[voting['majority']]
+        if prefilter:
+            features = features[features['IC50 mean'] < 500]
 
         if features_data is None:
             features_data = features

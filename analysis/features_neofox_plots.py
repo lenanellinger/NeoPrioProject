@@ -15,15 +15,15 @@ def main(argv):
     usage = "usage: python features_neofox_plots.py --majority-vote --use-interval"
     desc = "Creates plots for neofox features."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens shouldd be filtered by binding prefilter")
     parser.add_option("--use-interval", action="store_true", dest="use_interval", default=False, help="If restricted intervals should be used to plot")
     (options, args) = parser.parse_args()
     
-    majority_vote = options.majority_vote
+    prefilter = options.prefilter
     cohorts = ['AxelMelanomaPhD', 'SomaticAndTreatment']
     
     relevant_features = get_relevant_features_neofox(True)
-    feature_data = get_feature_data(majority_vote, cohorts)
+    feature_data = get_feature_data(prefilter, cohorts)
 
     for i, feature in enumerate(relevant_features):
         fig = plt.figure(figsize=(12,8))

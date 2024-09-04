@@ -27,18 +27,33 @@ def rank_sum(pvacseq_filename, neofox_filename):
     'NetMHCpan WT IC50 Score', 'NetMHCpan MT IC50 Score', 'NetMHCpan WT Percentile',  'NetMHCpan MT Percentile', 
     'Predicted Stability', 'Half Life', 'Stability Rank', 'NetMHCstab allele']], on=['Chromosome', 'Start', 'Stop', 'Transcript'])
     
-    # Prefilter (majority vote on binding affinities below 500)
-    voting = pd.DataFrame()
-    voting['NetMHC'] = annotation_df['NetMHC MT IC50 Score'] < 500
-    voting['NetMHCpan'] = annotation_df['NetMHCpan MT IC50 Score'] < 500
-    voting['MHCflurry'] = annotation_df['MHCflurry MT IC50 Score'] < 500
-    voting['majority'] = voting.mode(axis=1)[0]
-    annotation_df_prefiltered = annotation_df[voting['majority']]
+    # Prefilter (weighted average below 500)
+    annotation_df_prefiltered = annotation_df[(annotation_df['MHCflurry MT IC50 Score'] * 0.4 + annotation_df['NetMHCpan MT IC50 Score'] * 0.4 + annotation_df['NetMHC MT IC50 Score'] * 0.2) < 500]
     
     output_df = annotation_df_prefiltered.loc[:, ['Transcript', 'Chromosome', 'Start', 'Stop'] + [f for f in features]]
-    number_of_quantiles = None
     
+    output_df = ranking(annotation_df_prefiltered, output_df, features)
+    
+    output_df.to_csv(os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(neofox_filename))), 'rank_sum_out.tsv'), sep='\t', index=False, header=True)
+    
+def rank_sum_training_data(neofox_filename):  
+    neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
+    
+    f = open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_25.json')
+    features = json.load(f)
+    f.close()
+    
+    output_df = neofox_df.loc[:, ['patientIdentifier'] + [f for f in features if f in neofox_df.columns]]
+
+    output_df = ranking(neofox_df, output_df, features)
+    
+    output_df.to_csv(os.path.join(os.path.abspath(os.path.dirname(neofox_filename)), os.path.splitext(os.path.basename(neofox_filename))[0] + '_rank_sum_out_25.tsv'), sep='\t', index=False, header=True)
+
+def ranking(input_df, output_df, features):
+    number_of_quantiles = None
     for feature_name in features:
+        if feature_name not in output_df.columns:
+            continue
         index = output_df.columns.get_loc(feature_name)
         number_of_quantiles = len(features[feature_name]['quantiles'])
         
@@ -48,13 +63,13 @@ def rank_sum(pvacseq_filename, neofox_filename):
             # if Selfsimilarity is NaN, the DAI is almost zero -> NaN would be preferable
             rank_column = output_df[feature_name].rank(method='max', ascending=features[feature_name]['direction'] == 'lower', na_option='top')
         elif feature_name == 'imputedGeneExpression':
-            output_df.insert(index, 'rnaExpression', annotation_df_prefiltered['rnaExpression'])
+            output_df.insert(index, 'rnaExpression', input_df['rnaExpression'])
             index += 1
             # if RNA data given then measured RNA expression should be used, else the imputed
             rank_column = output_df['rnaExpression'].where(~output_df['rnaExpression'].isnull(), output_df['imputedGeneExpression']).rank(method='max', ascending=features[feature_name]['direction'] == 'lower', na_option='bottom')             
             column_name_rank = 'gene_expression_rank'
         elif feature_name == 'Priority_score_imputed_fromDNA' or feature_name == 'Priority_score_imputed_fromRNA':
-            output_df.insert(index, feature_name.replace('_imputed', ''), annotation_df_prefiltered[feature_name.replace('_imputed', '')])
+            output_df.insert(index, feature_name.replace('_imputed', ''), input_df[feature_name.replace('_imputed', '')])
             index += 1
             # if RNA data given then measured RNA expression should be used for priority score, else the imputed            
             rank_column = output_df[feature_name.replace('_imputed', '')].where(~output_df[feature_name.replace('_imputed', '')].isnull(), output_df[feature_name]).rank(method='max', ascending=features[feature_name]['direction'] == 'lower', na_option='bottom')            
@@ -85,8 +100,9 @@ def rank_sum(pvacseq_filename, neofox_filename):
         output_df['qscore'] = output_df.apply(calc_qscore, axis='columns', args=(list(output_df.columns), number_of_quantiles))
 
     output_df = output_df.sort_values(by='rank_sum')
-            
-    output_df.to_csv(os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(neofox_filename))), 'rank_sum_out.tsv'), sep='\t', index=False, header=True)
+    
+    return output_df
+    
 
 def main(argv):
     usage = "usage: python neoantigen_prioritization.py "
