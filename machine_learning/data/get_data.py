@@ -3,7 +3,7 @@ import pandas as pd
 
 directory_ml = "/mnt/storage2/users/ahnelll1/master_thesis/training_data"
 
-def get_feature_data():
+def get_feature_data_NEPdb():
     """
     returns a DataFrame with neofox features
     """

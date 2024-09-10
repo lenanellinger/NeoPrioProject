@@ -7,12 +7,20 @@ import json
 import bisect
 
 
-def calc_qscore(row, columns, number_of_quantiles):
+def calc_qscore(row, columns, number_of_quantiles, weights):
     qscore_series = row[[s for s in columns if s.endswith('_qscore')]]
-    return qscore_series.sum(skipna=True) / (number_of_quantiles * (~qscore_series.isnull()).sum())
+    qscore_series_renamed = qscore_series.rename(index=lambda x: x.replace('_qscore', ''))
+    valid_scores = qscore_series_renamed.dropna()
+
+    valid_weights = {k: weights[k] for k in valid_scores.index}
+    total_valid_weight = sum(valid_weights.values())
+    adjusted_weights = {k: v / total_valid_weight for k, v in valid_weights.items()}
+
+    weighted_qscores = (valid_scores / number_of_quantiles).mul(pd.Series(adjusted_weights))
+    return weighted_qscores.sum(skipna=True)
 
 
-def rank_sum(pvacseq_filename, neofox_filename):
+def create_annotations_df(pvacseq_filename, neofox_filename):
     pvacseq_df = pd.read_csv(pvacseq_filename, sep="\t", header=0)
     neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
 
@@ -33,20 +41,27 @@ def rank_sum(pvacseq_filename, neofox_filename):
     annotation_df_prefiltered = annotation_df[(annotation_df['MHCflurry MT IC50 Score'] * 0.4 + annotation_df[
         'NetMHCpan MT IC50 Score'] * 0.4 + annotation_df['NetMHC MT IC50 Score'] * 0.2) < 500]
 
-    output_df = ranking(annotation_df_prefiltered, ['Transcript', 'Chromosome', 'Start', 'Stop'])
+    return annotation_df_prefiltered
+
+
+def rank_sum_qscore(pvacseq_filename, neofox_filename):
+    output_df = ranking(create_annotations_df(pvacseq_filename, neofox_filename),
+                        ['Transcript', 'Chromosome', 'Start', 'Stop'])
 
     output_df.to_csv(
-        os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(neofox_filename))), 'rank_sum_out.tsv'), sep='\t',
-        index=False, header=True)
+        os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(neofox_filename))),
+                     'rank_sum_weighted_out_25_v3.tsv'),
+        sep='\t', index=False, header=True)
 
 
-def rank_sum_training_data(neofox_filename):
+def rank_sum_qscore_training_data(neofox_filename):
     neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
 
     output_df = ranking(neofox_df, ['patientIdentifier'])
 
     output_df.to_csv(os.path.join(os.path.abspath(os.path.dirname(neofox_filename)),
-                                  os.path.splitext(os.path.basename(neofox_filename))[0] + '_rank_sum_out_25.tsv'),
+                                  os.path.splitext(os.path.basename(neofox_filename))[
+                                      0] + '_rank_sum_weighted_out_25.tsv'),
                      sep='\t', index=False, header=True)
 
 
@@ -59,7 +74,7 @@ def ranking(input_df, meta_columns):
     weights = json.load(f)
     f.close()
 
-    output_df = input_df.loc[:, meta_columns + [f for f in features if f]]
+    output_df = input_df.loc[:, meta_columns + [f for f in features if f in input_df]]
 
     number_of_quantiles = None
     for feature_name in features:
@@ -129,13 +144,21 @@ def ranking(input_df, meta_columns):
             number_of_quantiles - x if not pd.isnull(x) else None for x in quantile_score_column]
         output_df.insert(index + 2, column_name_qscore, quantile_score_column)
 
-    # Output  
-    output_df['rank_sum'] = output_df[[s for s in list(output_df.columns) if s.endswith('_rank')]].sum(axis=1,
-                                                                                                       skipna=False)
+    # Output
+    ranks = output_df[[s for s in list(output_df.columns) if s.endswith('_rank')]]
+    ranks_renamed = ranks.rename(columns=lambda x: x.replace('_rank', ''))
+
+    valid_weights = {k: 1/weights[k] for k in weights} # use reciprocal of weights, because better rank is lower
+    total_valid_weight = sum(valid_weights.values())
+    adjusted_weights = {k: v / total_valid_weight for k, v in valid_weights.items()}
+
+    weighted_ranks = ranks_renamed.mul(pd.Series(adjusted_weights),
+                                       axis=1)
+    output_df['rank_sum'] = weighted_ranks.sum(axis=1, skipna=False)
     output_df['qscore'] = None
     if not output_df.shape[0] == 0:
         output_df['qscore'] = output_df.apply(calc_qscore, axis='columns',
-                                              args=(list(output_df.columns), number_of_quantiles))
+                                              args=(list(output_df.columns), number_of_quantiles, weights))
 
     output_df = output_df.sort_values(by='rank_sum')
 
@@ -151,7 +174,7 @@ def main(argv):
     parser.add_option("--neofox-output", action="store", dest="neofox_output", help="TSV file output of neofox")
     (options, args) = parser.parse_args()
 
-    rank_sum(options.pvacseq_filtered_output, options.neofox_output)
+    rank_sum_qscore(options.pvacseq_filtered_output, options.neofox_output)
 
 
 if __name__ == "__main__":

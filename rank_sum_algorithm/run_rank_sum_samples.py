@@ -1,6 +1,5 @@
 import os
-import pandas as pd
-from neoantigen_prioritization_rank_sum import rank_sum
+from neoantigen_prioritization_rank_sum import rank_sum_qscore
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
 
@@ -16,4 +15,4 @@ for cohort in os.listdir(directory):
             if not os.path.isfile(neofox_filename):
                 continue
             
-            rank_sum(pvacseq_filename, neofox_filename)
+            rank_sum_qscore(pvacseq_filename, neofox_filename)

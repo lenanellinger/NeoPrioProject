@@ -13,7 +13,7 @@ from optparse import OptionParser
 
 sys.path.append(sys.path[0] + '/../..')
 from analysis.helpers.get_data import get_relevant_features_neofox
-from machine_learning.data.get_data import get_feature_data
+from machine_learning.data.get_data import get_feature_data_NEPdb
 
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/analysis/images/features/neofox"
 
@@ -25,7 +25,7 @@ def main(argv):
     (options, args) = parser.parse_args()
     
     relevant_features = get_relevant_features_neofox(True)
-    feature_data = get_feature_data()
+    feature_data = get_feature_data_NEPdb()
 
     for i, feature in enumerate(relevant_features):
         fig = plt.figure(figsize=(12,8))

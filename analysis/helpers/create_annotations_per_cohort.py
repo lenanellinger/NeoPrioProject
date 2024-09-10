@@ -29,6 +29,8 @@ for cohort in os.listdir(directory):
                 print(cohort, method, sample)
                 print(neofox_df.loc[:, ['Chromosome', 'Start', 'Stop', 'Transcript']])
             neofox_df_merge['sample_id'] = sample_id
+            neofox_df_merge['TUMOR'] = sample.split("-")[0]
+            neofox_df_merge['NORMAL'] = sample.split("-")[1]
             sample_id += 1
             if df is None:
                 df = neofox_df_merge

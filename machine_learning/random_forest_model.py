@@ -1,11 +1,10 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 from sklearn.impute import SimpleImputer
 from sklearn.inspection import permutation_importance
 from sklearn import linear_model
@@ -14,9 +13,9 @@ from scipy.cluster import hierarchy
 from scipy.spatial.distance import squareform
 from scipy.stats import spearmanr
 
-from data.get_data import get_feature_data
+from data.get_data import get_feature_data_NEPdb
 
-features_with_meta = get_feature_data()
+features_with_meta = get_feature_data_NEPdb()
 
 labels = np.array(features_with_meta['response'])
 
@@ -41,7 +40,6 @@ train_features = imputer.transform(train_features)
 test_features = imputer.transform(test_features)
 
 # TODO class imbalance
-# TODO overfitting
 
 rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42, min_samples_leaf=20)
 rf_classifier.fit(train_features, train_labels)
@@ -178,7 +176,22 @@ print(f"RF test accuracy: {rf_classifier.score(test_features, test_labels):.3f}"
 print("Precision:", precision)
 print("Recall:", recall)
 print("F1-score:", f1)
-print("AUC:", auc) 
+print("AUC:", auc)
+
+# Calculate ROC curve
+fpr, tpr, thresholds = roc_curve(test_labels_int, pred_proba)
+# Plot the ROC curve
+plt.figure()
+plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % auc)
+plt.plot([0, 1], [0, 1], 'k--', label='No Skill')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve for Random Forest')
+plt.legend()
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/rf_ROC.png")
+
 
 pred_proba = clf.predict(test_features)
 pred_labels = (pred_proba > 0.5).astype(int)
@@ -193,7 +206,21 @@ print(f"LASSO test accuracy: {clf.score(test_features, test_labels_int):.3f}")
 print("Precision:", precision)
 print("Recall:", recall)
 print("F1-score:", f1)
-print("AUC:", auc) 
+print("AUC:", auc)
+
+# Calculate ROC curve
+fpr, tpr, thresholds = roc_curve(test_labels_int, pred_proba)
+# Plot the ROC curve
+plt.figure()
+plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % auc)
+plt.plot([0, 1], [0, 1], 'k--', label='No Skill')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve for LASSO')
+plt.legend()
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/lasso_ROC.png")
 
 
 

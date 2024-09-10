@@ -5,11 +5,11 @@
 	"PRIME_score": 0.2044,
 	"Selfsimilarity_conserved_binder": 0.1219,
 	"Tcell_predictor": 0.0721,
-	"dissimilarity_score": 0.0000,
+	"dissimilarity_score": 1e-10,
 	"hex_alignment_score": 0.1015,
-	"recognition_potential":  0.0000,
-	"Priority_score_imputed_fromDNA": 0.0769,
-    "Priority_score_imputed_fromRNA": 0.0769,
+	"recognition_potential":  1e-10,
+	"Priority_score_fromDNA": 0.0769,
+    "Priority_score_fromRNA": 0.0769,
     "Predicted Stability": 0.0769,
-    "imputedGeneExpression": 0.0769
+    "gene_expression": 0.0769
 }
