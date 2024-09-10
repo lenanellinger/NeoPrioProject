@@ -1,12 +1,4 @@
 {
-    "amplitude": {
-        "direction": "upper",
-        "quantiles": [
-            0.89371,
-            1.7264499999999998,
-            6.527
-        ]
-    },
     "DAI": {
         "direction": "upper",
         "quantiles": [
