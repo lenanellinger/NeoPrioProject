@@ -42,24 +42,27 @@ test_features = imputer.transform(test_features)
 rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42, min_samples_leaf=20)
 rf_classifier.fit(train_features, train_labels)
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background/AxelMelanomaPhD"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
 features_qscore = None
-for method in os.listdir(directory):
-    if os.path.isfile(os.path.join(directory, method)):
+for cohort in os.listdir(directory):
+    if os.path.isfile(os.path.join(directory, cohort)):
         continue
-    for sample in os.listdir(os.path.join(directory, method)):
-        if sample.startswith("_no"):
+    for method in os.listdir(os.path.join(directory, cohort)):
+        if os.path.isfile(os.path.join(directory, cohort, method)):
             continue
-        tumor = sample.split("-")[0]
-        normal = sample.split("-")[1]
-        filename = os.path.join(directory, method, sample, "rank_sum_weighted_out_25_v2.tsv")
-        if not os.path.isfile(filename):
-            continue
-        weighted_rank_sum_out = pd.read_csv(filename, sep="\t", header=0)
-        if features_qscore is None:
-            features_qscore = weighted_rank_sum_out
-        else:
-            features_qscore = pd.concat([features_qscore, weighted_rank_sum_out])
+        for sample in os.listdir(os.path.join(directory, cohort, method)):
+            if sample.startswith("_no"):
+                continue
+            tumor = sample.split("-")[0]
+            normal = sample.split("-")[1]
+            filename = os.path.join(directory, cohort, method, sample, "rank_sum_weighted_out_25_v2.tsv")
+            if not os.path.isfile(filename):
+                continue
+            weighted_rank_sum_out = pd.read_csv(filename, sep="\t", header=0)
+            if features_qscore is None:
+                features_qscore = weighted_rank_sum_out
+            else:
+                features_qscore = pd.concat([features_qscore, weighted_rank_sum_out])
 
 qscores = features_qscore.loc[:, ['qscore']]
 features = features_qscore.loc[:, feature_list]
@@ -74,7 +77,9 @@ features = imputer.transform(features)
 
 pred_proba = rf_classifier.predict_proba(features)[:, 1]
 
-diff = [np.abs(score - pred) for score, pred in zip(qscores, pred_proba)]
-print(np.mean(diff))
+diff = [score - pred for score, pred in zip(qscores, pred_proba)]
+print("Mean", np.mean(diff))
+print("Std", np.std(diff))
 plt.hist(diff, bins=50)
+plt.xlim([-1,1])
 plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/diff_qscore.png")
