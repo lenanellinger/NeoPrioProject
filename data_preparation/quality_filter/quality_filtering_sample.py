@@ -2,13 +2,27 @@ import os
 import shutil
 import xml.etree.ElementTree as ET
 
-# for both cohorts and each for strelka und dragen
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background/AxelMelanomaPhD/strelka"
+# define directory names specific for your interest
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output/AxelMelanomaPhD/strelka"
 directory_samples = "/mnt/storage1/projects/research/AxelMelanomaPhD"
 
+def is_quality_parameter_sufficient(qcml_file, parameter, threhsold):
+    tree = ET.parse(qcml_file)
+    root = tree.getroot()
+    sufficient = True
+
+    for item in root.findall(
+            './{http://www.prime-xs.eu/ms/qcml}runQuality/{http://www.prime-xs.eu/ms/qcml}qualityParameter'):
+        if item.get('name') == parameter and float(item.get('value')) < threhsold:
+            # if you want to move output files which do not meet the quality criteria, uncomment the following line
+            # shutil.move(file, os.path.join(directory, "_no_quality", filename))
+            print(filename)
+            sufficient = False
+            break
+
+    return sufficient
+
 for filename in os.listdir(directory):
-    stop = False
-    
     if filename.startswith("_no"):
         continue
 
@@ -22,16 +36,8 @@ for filename in os.listdir(directory):
     if not os.path.isfile(qcml_file):
         print("No folder for tumor " + tumor_id)
         continue
-    tree = ET.parse(qcml_file)
-    root = tree.getroot()
-            
-    for item in root.findall('./{http://www.prime-xs.eu/ms/qcml}runQuality/{http://www.prime-xs.eu/ms/qcml}qualityParameter'):
-        if item.get('name') == "target region read depth" and float(item.get('value')) < 60.:
-            #shutil.move(file, os.path.join(directory, "_no_quality", filename))
-            print(filename)
-            stop = True
-            break
-    if stop:
+
+    if not is_quality_parameter_sufficient(qcml_file, "target region read depth", 60.):
         continue
         
     # Coverage Normal
@@ -39,33 +45,17 @@ for filename in os.listdir(directory):
     if not os.path.isfile(qcml_file):
         print("No folder for normal " + normal_id)
         continue
-    tree = ET.parse(qcml_file)
-    root = tree.getroot()
-            
-    for item in root.findall('./{http://www.prime-xs.eu/ms/qcml}runQuality/{http://www.prime-xs.eu/ms/qcml}qualityParameter'):
-        if item.get('name') == "target region read depth" and float(item.get('value')) < 20.:
-            #shutil.move(file, os.path.join(directory, "_no_quality", filename))
-            print(filename)
-            stop = True
-            break
-    if stop:
+
+    if not is_quality_parameter_sufficient(qcml_file, "target region read depth", 20.):
         continue
     
-    # Correlation
+    # Correlation Tumor - Normal
     qcml_file = os.path.join(directory_samples, "Somatic_" + filename, filename + "_stats_som.qcML")
     if not os.path.isfile(qcml_file):
         print("No folder for somatic " + filename)
         continue
-    tree = ET.parse(qcml_file)
-    root = tree.getroot()
-            
-    for item in root.findall('./{http://www.prime-xs.eu/ms/qcml}runQuality/{http://www.prime-xs.eu/ms/qcml}qualityParameter'):
-        if item.get('name') == "	sample correlation" and float(item.get('value')) < 0.8:
-            #shutil.move(file, os.path.join(directory, "_no_quality", filename))
-            print(filename)
-            stop = True
-            break
-    if stop:
+
+    if is_quality_parameter_sufficient(qcml_file, "	sample correlation", 0.8):
         continue
         
     # Multiple Samples

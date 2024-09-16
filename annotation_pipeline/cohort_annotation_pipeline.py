@@ -40,7 +40,6 @@ def main(argv):
     (options, args) = parser.parse_args()
     
 
-    
     os.environ["MHCFLURRY_DOWNLOADS_DIR"] = "/mnt/storage2/users/ahnelll1/tools/MHCflurry/4/2.0.0"
     os.environ["NEOFOX_MAKEBLASTDB"] = "/mnt/storage2/users/ahnelll1/tools/ncbi-blast-2.10.1+/bin/makeblastdb"
     os.environ["NEOFOX_BLASTP"] = "/mnt/storage2/users/ahnelll1/tools/ncbi-blast-2.10.1+/bin/blastp"
@@ -61,7 +60,7 @@ def main(argv):
     filename = os.path.basename(options.input)
     f = options.input
     
-    output_dir = os.path.join('/mnt/storage2/users/ahnelll1/master_thesis/output_background', os.path.basename(options.data_dir), 'strelka' if options.strelka else 'dragen', filename.replace('.vcf.gz', ''))
+    output_dir = os.path.join('/mnt/storage2/users/ahnelll1/master_thesis/output', os.path.basename(options.data_dir), 'strelka' if options.strelka else 'dragen', filename.replace('.vcf.gz', ''))
     os.makedirs(output_dir, exist_ok=True)
     
     logging.getLogger('asyncio').setLevel(logging.WARNING)
@@ -73,7 +72,7 @@ def main(argv):
         logging.basicConfig(level=logging.DEBUG, format="%(asctime)-15s %(levelname)-8s %(message)s")
     logger = logging.getLogger(__name__)
     
-    # checking if it is a file
+    # checking if input file is a file
     if not os.path.isfile(f) or not filename.endswith('.vcf.gz'):
         logger.info('Input object ' + filename + ' could not be parsed. Should be .vcf.gz')
         exit(1)
@@ -91,7 +90,7 @@ def main(argv):
         logging.info('1. VEP Annotation running...')
         annotate_vep_for_pvacseq(f, output_vep_filename)
 
-    # prepare input for pvac_seq adn annotate with expression data
+    # prepare input for pVACseq and annotate with expression data
     output_ready_filename = output_vep_filename.replace('.vcf.gz', '_ready.vcf.gz')
     if os.path.exists(output_ready_filename):
         logging.info('2. Preparation for pVACseq and RNA Annotation already done')
