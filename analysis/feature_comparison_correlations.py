@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import itertools
 from helpers.get_data import get_feature_data, get_relevant_features
 import sys
@@ -9,19 +8,19 @@ from optparse import OptionParser
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features"
 
 def main(argv):
-    usage = "usage: python feature_comparison_correlations.py --majority-vote"
+    usage = "usage: python feature_comparison_correlations.py --prefilter"
     desc = "Calculates correlation coefficients for pVACseq and neofox features."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
     (options, args) = parser.parse_args()
     
-    majority_vote = options.majority_vote
+    prefilter = options.prefilter
     cohorts = ['AxelMelanomaPhD', 'SomaticAndTreatment']
     
     relevant_features = get_relevant_features()
-    feature_data = get_feature_data(majority_vote, cohorts)
+    feature_data = get_feature_data(prefilter, cohorts)
     
-    f = open(os.path.join(output_dir, "features_correlation_coefficients" + ('_majority_vote' if majority_vote else '') + ".txt"), "w")
+    f = open(os.path.join(output_dir, "features_correlation_coefficients" + ('_prefilter' if prefilter else '') + ".txt"), "w")
     for cohort in cohorts:
         f.write(cohort + "\n")
         features = feature_data[feature_data['cohort'] == cohort]

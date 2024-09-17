@@ -9,8 +9,8 @@ Commands which are not associated with a valid output are written in commands_mi
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
-with open('/mnt/storage2/users/ahnelll1/master_thesis/commands/commands_quality_filtered.sh', 'r') as fi:
-    with open('/mnt/storage2/users/ahnelll1/master_thesis/commans/commands_missing.sh', 'w') as fo:
+with open('/mnt/storage2/users/ahnelll1/master_thesis/pipeline_commands/commands_quality_filtered.sh', 'r') as fi:
+    with open('/mnt/storage2/users/ahnelll1/master_thesis/pipeline_commands/commands_missing.sh', 'w') as fo:
         lines = fi.readlines()
         for cohort in os.listdir(directory):
             for method in os.listdir(os.path.join(directory, cohort)):

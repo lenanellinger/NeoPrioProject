@@ -5,7 +5,7 @@ import shutil
 Deletes all neofox output folders in output folder structure
 """
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
 for cohort in os.listdir(directory):
     for method in os.listdir(os.path.join(directory, cohort)):

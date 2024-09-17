@@ -1,7 +1,11 @@
 import os
 import pandas as pd
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+"""
+Combines all pVACseq and neofox annotations per cohort into one file
+"""
+
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
 sample_id = 0
 for cohort in os.listdir(directory):

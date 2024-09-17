@@ -23,7 +23,7 @@ def main():
     reference_folder = ReferenceFolder(organism='human')
     hla_database = reference_folder.get_mhc_database()
 
-    samples = pd.read_csv('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/data/NECID_Query.csv')
+    samples = pd.read_csv('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/data/NECID_Query.csv')
 
     # filter length and MHC Class I and multiple identical samples (with different TCR information)
     samples = samples[(samples['antigen_len'] >= 8) & (samples['antigen_len'] <= 14) & (~pd.isna(samples['alleleA'])) & (~samples["alleleA"].str.startswith("DQA", na=True))]

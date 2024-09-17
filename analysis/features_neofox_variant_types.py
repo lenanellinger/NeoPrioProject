@@ -12,17 +12,17 @@ from optparse import OptionParser
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features/neofox/variant_types"
 
 def main(argv):
-    usage = "usage: python features_neofox_variant_types.py --majority-vote"
+    usage = "usage: python features_neofox_variant_types.py --prefilter"
     desc = "Creates plots for neofox features."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
     (options, args) = parser.parse_args()
     
-    majority_vote = options.majority_vote
+    prefilter = options.prefilter
     cohorts = ['AxelMelanomaPhD', 'SomaticAndTreatment']
     
     relevant_features = get_relevant_features_neofox(True)
-    feature_data = get_feature_data(majority_vote, cohorts)
+    feature_data = get_feature_data(prefilter, cohorts)
     
 
     for i, feature in enumerate(relevant_features):
@@ -56,7 +56,7 @@ def main(argv):
 
         plt.tight_layout()
         
-        plt.savefig(os.path.join(output_dir, feature['name'] + '_variant_types_' + '_'.join(cohorts) + ('_majority_vote' if majority_vote else '') + '.png'), bbox_inches='tight', dpi=100)
+        plt.savefig(os.path.join(output_dir, feature['name'] + '_variant_types_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
     
 if __name__ == "__main__":
     main(sys.argv)

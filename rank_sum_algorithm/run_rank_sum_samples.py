@@ -1,7 +1,11 @@
 import os
 from neoantigen_prioritization_rank_sum import rank_sum_qscore
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+"""
+Runs the rank sum algorithm for all samples in the output folder
+"""
+
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
 for cohort in os.listdir(directory):
     for method in os.listdir(os.path.join(directory, cohort)):

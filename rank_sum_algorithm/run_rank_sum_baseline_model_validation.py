@@ -3,7 +3,7 @@ import pandas as pd
 from neoantigen_prioritization_rank_sum import ranking, create_annotations_df
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
 # create baseline
 cohort = "SomaticAndTreatment"

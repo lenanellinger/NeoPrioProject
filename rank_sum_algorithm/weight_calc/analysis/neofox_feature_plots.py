@@ -10,7 +10,7 @@ sys.path.append(sys.path[0] + '/../..')
 from analysis.helpers.get_data import get_relevant_features_neofox
 from rank_sum_algorithm.machine_learning.data.get_data import get_feature_data_NEPdb
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/analysis/images/features/neofox"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/analysis/images/features/neofox"
 
 def main(argv):
     usage = "usage: python features_neofox_plots.py --use-interval"

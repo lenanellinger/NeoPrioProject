@@ -71,7 +71,7 @@ ax2.set_xticklabels(dendro["ivl"], rotation="vertical")
 ax2.set_yticklabels(dendro["ivl"])
 _ = fig.tight_layout()
      
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/feature_correlation.png")  
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/feature_correlation.png")
 
 # Feature Importances
 result = permutation_importance(
@@ -108,7 +108,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/rf_feature_importances_test.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/rf_feature_importances_test.png")
 
 result = permutation_importance(
     rf_classifier, train_features, train_labels, n_repeats=10, random_state=42, n_jobs=2
@@ -125,7 +125,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/rf_feature_importances_train.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/rf_feature_importances_train.png")
 
 result = permutation_importance(
     clf, test_features, test_labels_int, n_repeats=10, random_state=42, n_jobs=2
@@ -142,7 +142,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/lasso_feature_importances_test.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/lasso_feature_importances_test.png")
 
 result = permutation_importance(
     clf, train_features, train_labels_int, n_repeats=10, random_state=42, n_jobs=2
@@ -159,7 +159,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/lasso_feature_importances_train.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/lasso_feature_importances_train.png")
 
 
 # Test Set
@@ -190,7 +190,7 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('ROC Curve for Random Forest')
 plt.legend()
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/rf_ROC.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/rf_ROC.png")
 
 
 pred_proba = clf.predict(test_features)
@@ -220,7 +220,7 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('ROC Curve for LASSO')
 plt.legend()
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/lasso_ROC.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/lasso_ROC.png")
 
 
 

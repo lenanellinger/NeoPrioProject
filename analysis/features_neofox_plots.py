@@ -12,7 +12,7 @@ from optparse import OptionParser
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features/neofox"
 
 def main(argv):
-    usage = "usage: python features_neofox_plots.py --majority-vote --use-interval"
+    usage = "usage: python features_neofox_plots.py --prefilter --use-interval"
     desc = "Creates plots for neofox features."
     parser = OptionParser(usage=usage, description=desc)
     parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens shouldd be filtered by binding prefilter")
@@ -61,7 +61,7 @@ def main(argv):
 
         plt.tight_layout()
         
-        plt.savefig(os.path.join(output_dir, feature['name'] + '_plots_' + ('interval_' if options.use_interval and 'interval' in feature else '') + '_'.join(cohorts) + ('_majority_vote' if majority_vote else '') + '.png'), bbox_inches='tight', dpi=100)
+        plt.savefig(os.path.join(output_dir, feature['name'] + '_plots_' + ('interval_' if options.use_interval and 'interval' in feature else '') + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
     
 if __name__ == "__main__":
     main(sys.argv)

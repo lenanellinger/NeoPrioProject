@@ -1,11 +1,11 @@
 import os
 import pandas as pd
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
 def get_feature_data(prefilter=True, cohorts=['AxelMelanomaPhD', 'SomaticAndTreatment']):
     """
-    returns a DataFrame (filtered by mean of binding affinity) for given cohorts
+    returns a DataFrame (filtered by binding affinity prefilter) for given cohorts
     """
     features_data = None
 
@@ -14,10 +14,13 @@ def get_feature_data(prefilter=True, cohorts=['AxelMelanomaPhD', 'SomaticAndTrea
         features = pd.read_csv(file, sep="\t", header=0)
         
         features['IC50 mean'] = features.loc[:, ['NetMHC MT IC50 Score', 'NetMHCpan MT IC50 Score', 'MHCflurry MT IC50 Score']].mean(axis=1)
+        features['IC50 weighted mean'] = features['MHCflurry MT IC50 Score'] * 0.4 + \
+                                         features['NetMHCpan MT IC50 Score'] * 0.4 + \
+                                         features['NetMHC MT IC50 Score'] * 0.2
         features['cohort'] = cohort
         
         if prefilter:
-            features = features[features['IC50 mean'] < 500]
+            features = features[features['IC50 weighted mean'] < 500]
 
         if features_data is None:
             features_data = features
@@ -28,14 +31,14 @@ def get_feature_data(prefilter=True, cohorts=['AxelMelanomaPhD', 'SomaticAndTrea
     
 def get_relevant_features(details=False):
     """
-    returns relevant feature column names (as detailed obejct)
+    returns relevant feature column names (or as detailed object)
     """
     return get_relevant_features_neofox(details) +  get_relevant_features_pvacseq(details)
     
     
 def get_relevant_features_neofox(details=False):
     """
-    returns relevant neofox feature column names (as detailed obejct)
+    returns relevant neofox feature column names (or as detailed object)
     """
     features = [
         {
@@ -148,7 +151,7 @@ def get_relevant_features_neofox(details=False):
     
 def get_relevant_features_pvacseq(details=False):
     """
-    returns relevant pvacseq feature column names (as detailed obejct)
+    returns relevant pvacseq feature column names (or as detailed object)
     """
     features = [
         {

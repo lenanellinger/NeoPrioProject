@@ -42,7 +42,7 @@ test_features = imputer.transform(test_features)
 rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42, min_samples_leaf=20)
 rf_classifier.fit(train_features, train_labels)
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 features_qscore = None
 for cohort in os.listdir(directory):
     if os.path.isfile(os.path.join(directory, cohort)):
@@ -82,4 +82,4 @@ print("Mean", np.mean(diff))
 print("Std", np.std(diff))
 plt.hist(diff, bins=50)
 plt.xlim([-1,1])
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/diff_qscore.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/diff_qscore.png")

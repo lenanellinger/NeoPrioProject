@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background/AxelMelanomaPhD"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output/AxelMelanomaPhD"
 
 metadata = pd.read_csv("/mnt/storage2/users/ahnelll1/master_thesis/data/srr_metadata.tsv", sep="\t", header=0)
 response_map = {

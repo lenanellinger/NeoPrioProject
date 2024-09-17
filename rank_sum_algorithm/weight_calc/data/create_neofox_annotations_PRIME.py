@@ -24,7 +24,7 @@ def main():
     hla_database = reference_folder.get_mhc_database()
 
     samples = pd.read_excel(
-        '/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/machine_learning/data/PRIME_training.xlsx')
+        '/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/data/PRIME_training.xlsx')
     print(samples)
     neoepitopes = [NeoepitopeFactory.build_neoepitope(
         mutated_peptide=neoepitope['Mutant'],

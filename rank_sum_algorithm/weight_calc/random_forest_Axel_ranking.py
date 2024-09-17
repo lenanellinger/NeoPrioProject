@@ -21,7 +21,7 @@ response_map = {
     'PR': 1
 }
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background/AxelMelanomaPhD"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output/AxelMelanomaPhD"
 features = []
 for method in os.listdir(directory):
     if os.path.isfile(os.path.join(directory, method)):
