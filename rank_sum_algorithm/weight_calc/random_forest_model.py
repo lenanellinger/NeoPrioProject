@@ -11,10 +11,6 @@ from sklearn.impute import SimpleImputer
 from sklearn.inspection import permutation_importance
 from sklearn import linear_model
 
-from scipy.cluster import hierarchy
-from scipy.spatial.distance import squareform
-from scipy.stats import spearmanr
-
 from data.get_data import get_feature_data_NEPdb
 
 sys.path.append(sys.path[0] + '/../../analysis')
@@ -24,7 +20,9 @@ features_with_meta = get_feature_data_NEPdb()
 
 labels = np.array(features_with_meta['response'])
 
-features_with_meta=features_with_meta.loc[:, ['patientIdentifier', 'DAI', 'IEDB_Immunogenicity', 'MixMHCpred_score', 'PRIME_score', 'Selfsimilarity_conserved_binder', 'Tcell_predictor', 'dissimilarity_score', 'hex_alignment_score', 'recognition_potential']]
+all_feature_names = get_relevant_features_neofox()
+
+features_with_meta=features_with_meta.loc[:, ['patientIdentifier'] + [name for name in all_feature_names if not name.startswith("Priority_score")]]
 features_with_meta['Selfsimilarity_conserved_binder'] = features_with_meta['Selfsimilarity_conserved_binder'].fillna(0)
 
 features = features_with_meta.drop(['patientIdentifier'], axis=1)
@@ -53,7 +51,6 @@ clf = linear_model.Lasso(alpha=0.00001)
 clf.fit(train_features, train_labels_int)
 
 # Feature Importances
-all_feature_names = get_relevant_features_neofox()
 result = permutation_importance(
     rf_classifier, test_features, test_labels, n_repeats=10, random_state=42, n_jobs=2
 )

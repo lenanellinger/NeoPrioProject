@@ -5,14 +5,7 @@ import os
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 from sklearn.impute import SimpleImputer
-from sklearn.inspection import permutation_importance
-from sklearn import linear_model
-
-from scipy.cluster import hierarchy
-from scipy.spatial.distance import squareform
-from scipy.stats import spearmanr
 
 from data.get_data import get_feature_data_NEPdb
 

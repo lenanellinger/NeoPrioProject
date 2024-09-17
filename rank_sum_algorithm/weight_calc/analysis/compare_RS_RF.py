@@ -1,5 +1,4 @@
 import pandas as pd
-import math
 import numpy as np
 
 rf_output = pd.read_csv('/mnt/storage2/users/ahnelll1/master_thesis/training_data/NEPdb_neofox_annotations_random_forest_out.tsv', sep='\t', header=0)
