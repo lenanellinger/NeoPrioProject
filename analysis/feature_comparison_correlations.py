@@ -3,6 +3,8 @@ import itertools
 from helpers.get_data import get_feature_data, get_relevant_features
 import sys
 from optparse import OptionParser
+import seaborn as sns
+import matplotlib.pyplot as plt
   
 
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features"
@@ -19,6 +21,10 @@ def main(argv):
     
     relevant_features = get_relevant_features()
     feature_data = get_feature_data(prefilter, cohorts)
+    
+    sns.heatmap(feature_data.loc[:, relevant_features].corr(numeric_only=True), cmap="YlGnBu")
+
+    plt.savefig(os.path.join(output_dir, 'feature_correlation' + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
     
     f = open(os.path.join(output_dir, "features_correlation_coefficients" + ('_prefilter' if prefilter else '') + ".txt"), "w")
     for cohort in cohorts:

@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-directory_ml = "/mnt/storage2/users/ahnelll1/master_thesis/training_data"
+directory_ml = "/mnt/storage2/users/ahnelll1/master_thesis/output_training_data"
 
 def get_feature_data_NEPdb():
     """

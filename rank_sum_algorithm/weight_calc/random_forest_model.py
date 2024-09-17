@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+import json
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -14,6 +16,9 @@ from scipy.spatial.distance import squareform
 from scipy.stats import spearmanr
 
 from data.get_data import get_feature_data_NEPdb
+
+sys.path.append(sys.path[0] + '/../../analysis')
+from helpers.get_data import get_relevant_features_neofox
 
 features_with_meta = get_feature_data_NEPdb()
 
@@ -47,33 +52,8 @@ rf_classifier.fit(train_features, train_labels)
 clf = linear_model.Lasso(alpha=0.00001)
 clf.fit(train_features, train_labels_int)
 
-# Feature Correlation
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 8))
-corr = spearmanr(features).correlation
-
-corr = (corr + corr.T) / 2
-np.fill_diagonal(corr, 1)
-
-# We convert the correlation matrix to a distance matrix before performing
-# hierarchical clustering using Ward's linkage.
-distance_matrix = 1 - np.abs(corr)
-distance_matrix = np.nan_to_num(distance_matrix, nan=1)
-dist_linkage = hierarchy.ward(squareform(distance_matrix))
-dendro = hierarchy.dendrogram(
-    dist_linkage, labels=features.columns.to_list(), ax=ax1, leaf_rotation=90
-)
-dendro_idx = np.arange(0, len(dendro["ivl"]))
-
-ax2.imshow(corr[dendro["leaves"], :][:, dendro["leaves"]])
-ax2.set_xticks(dendro_idx)
-ax2.set_yticks(dendro_idx)
-ax2.set_xticklabels(dendro["ivl"], rotation="vertical")
-ax2.set_yticklabels(dendro["ivl"])
-_ = fig.tight_layout()
-     
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/feature_correlation.png")
-
 # Feature Importances
+all_feature_names = get_relevant_features_neofox()
 result = permutation_importance(
     rf_classifier, test_features, test_labels, n_repeats=10, random_state=42, n_jobs=2
 )
@@ -94,8 +74,22 @@ adjusted_importances = importances_mean / (importances_std + 1e-10)  # Adding a 
 feature_weights_adjusted = adjusted_importances / adjusted_importances.sum()
 
 # Display the adjusted feature weights
+weights = {}
 for feature, weight in zip(features, feature_weights_adjusted):
     print(f"{feature}: Adjusted Weight = {weight:.4f}")
+    weights[feature] = weight
+
+total = 1
+for feature in all_feature_names:
+    if feature not in weights:
+        weights[feature] = np.mean(feature_weights_adjusted)
+        total += np.mean(feature_weights_adjusted)
+
+for key in weights:
+    weights[key] = weights[key] / total
+
+with open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/weights.json', 'w') as f:
+    json.dump(weights, f, ensure_ascii=False, indent=4)
 
 sorted_importances_idx = result.importances_mean.argsort()
 importances = pd.DataFrame(
@@ -108,7 +102,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/rf_feature_importances_test.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/rf_feature_importances_test.png")
 
 result = permutation_importance(
     rf_classifier, train_features, train_labels, n_repeats=10, random_state=42, n_jobs=2
@@ -125,7 +119,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/rf_feature_importances_train.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/rf_feature_importances_train.png")
 
 result = permutation_importance(
     clf, test_features, test_labels_int, n_repeats=10, random_state=42, n_jobs=2
@@ -142,7 +136,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/lasso_feature_importances_test.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/lasso_feature_importances_test.png")
 
 result = permutation_importance(
     clf, train_features, train_labels_int, n_repeats=10, random_state=42, n_jobs=2
@@ -159,7 +153,7 @@ ax.axvline(x=0, color="k", linestyle="--")
 ax.set_xlabel("Decrease in accuracy score")
 ax.figure.tight_layout()
 
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/lasso_feature_importances_train.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/lasso_feature_importances_train.png")
 
 
 # Test Set
@@ -190,7 +184,7 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('ROC Curve for Random Forest')
 plt.legend()
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/rf_ROC.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/rf_ROC.png")
 
 
 pred_proba = clf.predict(test_features)
@@ -220,9 +214,9 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('ROC Curve for LASSO')
 plt.legend()
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/lasso_ROC.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/lasso_ROC.png")
 
 
 
 df = pd.DataFrame({'patientIdentifier': test_patients, 'pred_proba': pred_proba})
-df.to_csv('/mnt/storage2/users/ahnelll1/master_thesis/training_data/NEPdb_neofox_annotations_random_forest_out.tsv', sep='\t', index=False, header=True)
+df.to_csv('/mnt/storage2/users/ahnelll1/master_thesis/output_training_data/NEPdb_neofox_annotations_random_forest_out.tsv', sep='\t', index=False, header=True)

@@ -17,7 +17,7 @@ def main():
     step = int(options.step)
     
     relevant_features = get_relevant_features_neofox(True)
-    feature_data = get_feature_data()
+    feature_data = get_feature_data()   
     
     result = {}
     

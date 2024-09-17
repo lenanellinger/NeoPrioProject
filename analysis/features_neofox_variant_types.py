@@ -9,7 +9,7 @@ from helpers.get_data import get_feature_data, get_relevant_features_neofox
 import sys
 from optparse import OptionParser
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features/neofox/variant_types"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features/neofox/variant_types"
 
 def main(argv):
     usage = "usage: python features_neofox_variant_types.py --prefilter"
@@ -42,8 +42,13 @@ def main(argv):
             if feature_df_hist.shape[0] == 0:
                 continue
             elif np.nanmax(feature_df_hist[feature['name']]) - np.nanmin(feature_df_hist[feature['name']]) < 0.5 * bin_width:
-                bin_width = np.nanmax(feature_df_hist[feature['name']]) - np.nanmin(feature_df_hist[feature['name']])
-            sns.histplot(feature_df_hist, kde=True, x=feature['name'], stat='density', legend=True, color=colors[name], binwidth=bin_width)
+                bin_width_small = np.nanmax(feature_df_hist[feature['name']]) - np.nanmin(feature_df_hist[feature['name']])
+                if bin_width_small == 0:
+                    sns.histplot(feature_df_hist, kde=True, x=feature['name'], stat='density', legend=True, color=colors[name])
+                else:
+                    sns.histplot(feature_df_hist, kde=True, x=feature['name'], stat='density', legend=True, color=colors[name], binwidth=bin_width_small)                    
+            else:                
+                sns.histplot(feature_df_hist, kde=True, x=feature['name'], stat='density', legend=True, color=colors[name], binwidth=bin_width)
             axes[i].set_title(feature['name'] + " (" + name + ")")
             axes[i].set_xlabel("mean: " + str(feature_df[feature['name']].mean()) + ", var: " + str(feature_df[feature['name']].var()))
             axes[i].set_xlim(xlim)
