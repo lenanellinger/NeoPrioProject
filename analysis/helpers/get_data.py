@@ -126,13 +126,13 @@ def get_relevant_features_neofox(details=False):
                 'use_percentage': True,
                 'good_distribution': True
             }
-        },{
-            'name': 'Predicted Stability', 
-            'quantile': 'upper',
-            'cutoff': {
-                'use_percentage': True,
-                'good_distribution': True
-            }
+        #},{
+        #    'name': 'Predicted Stability',
+        #    'quantile': 'upper',
+        #    'cutoff': {
+        #        'use_percentage': True,
+        #        'good_distribution': True
+        #    }
         },{
             'name': 'imputedGeneExpression', 
             'quantile': 'upper',
