@@ -1,6 +1,6 @@
 {
     "DAI": 0.0975524457576402,
-    "dissimilarity_score": 0.0,
+    "dissimilarity_score": 1e-10,
     "IEDB_Immunogenicity": 0.05616528241537177,
     "MixMHCpred_score": 0.09806681047782011,
     "Selfsimilarity_conserved_binder": 0.20260892580432865,

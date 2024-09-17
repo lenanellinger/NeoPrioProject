@@ -7,33 +7,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 
+from analysis.helpers.get_data import get_relevant_features_neofox
 from data.get_data import get_feature_data_NEPdb
 
-features_with_meta = get_feature_data_NEPdb()
-
-labels = np.array(features_with_meta['response'])
-
-feature_list = ['DAI', 'IEDB_Immunogenicity', 'MixMHCpred_score', 'PRIME_score', 'Selfsimilarity_conserved_binder', 'Tcell_predictor', 'dissimilarity_score', 'hex_alignment_score', 'recognition_potential']
-
-features_with_meta=features_with_meta.loc[:, feature_list]
-features_with_meta['Selfsimilarity_conserved_binder'] = features_with_meta['Selfsimilarity_conserved_binder'].fillna(0)
-
-features_with_meta_array = np.array(features_with_meta)
-
-train_features, test_features, train_labels, test_labels = train_test_split(features_with_meta_array, labels, test_size = 0.2, random_state = 42)
-
-train_labels_int = [0 if label == 'N' else 1 for label in train_labels]
-test_labels_int = [0 if label == 'N' else 1 for label in test_labels]
-
-imputer = SimpleImputer(strategy='median')
-imputer.fit(train_features)
-train_features = imputer.transform(train_features)
-test_features = imputer.transform(test_features)
-
-# TODO class imbalance
-
-rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42, min_samples_leaf=20)
-rf_classifier.fit(train_features, train_labels)
+rf = RandomForestClassifier()
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 features_qscore = None
@@ -58,7 +35,7 @@ for cohort in os.listdir(directory):
                 features_qscore = pd.concat([features_qscore, weighted_rank_sum_out])
 
 qscores = features_qscore.loc[:, ['qscore']]
-features = features_qscore.loc[:, feature_list]
+features = features_qscore.loc[:, get_relevant_features_neofox()]
 features['Selfsimilarity_conserved_binder'] = features['Selfsimilarity_conserved_binder'].fillna(0)
 
 features = np.array(features)
@@ -68,11 +45,11 @@ imputer = SimpleImputer(strategy='median')
 imputer.fit(features)
 features = imputer.transform(features)
 
-pred_proba = rf_classifier.predict_proba(features)[:, 1]
+pred_proba = rf.get_classifier().predict_proba(features)[:, 1]
 
 diff = [score - pred for score, pred in zip(qscores, pred_proba)]
 print("Mean", np.mean(diff))
 print("Std", np.std(diff))
 plt.hist(diff, bins=50)
 plt.xlim([-1,1])
-plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/diff_qscore.png")
+plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/diff_qscore.png")

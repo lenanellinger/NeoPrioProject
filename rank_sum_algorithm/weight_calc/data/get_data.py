@@ -32,7 +32,6 @@ def get_train_data():
     features_with_meta['Selfsimilarity_conserved_binder'] = features_with_meta[
         'Selfsimilarity_conserved_binder'].fillna(0)
 
-    features = features_with_meta.drop(['patientIdentifier'], axis=1)
     features_with_meta_array = np.array(features_with_meta)
 
     train_features, test_features, train_labels, test_labels = train_test_split(features_with_meta_array, labels,

@@ -90,7 +90,7 @@ class RandomForestModel:
         print("AUC:", auc)
 
         # Calculate ROC curve
-        fpr, tpr, thresholds = roc_curve(test_labels_int, pred_proba)
+        fpr, tpr, thresholds = roc_curve(self.test_labels_int, pred_proba)
         # Plot the ROC curve
         plt.figure()
         plt.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % auc)

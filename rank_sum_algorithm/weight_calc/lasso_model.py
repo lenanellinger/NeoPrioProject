@@ -39,7 +39,7 @@ class LassoModel:
             "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/lasso_feature_importances_test.png")
 
 
-    def calc_statistics(self):
+    def calc_test_statistics(self):
         pred_proba = self.classifier.predict(self.test_features)
         pred_labels = (pred_proba > 0.5).astype(int)
 
@@ -69,3 +69,8 @@ class LassoModel:
         plt.legend()
         plt.savefig(
             "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/lasso_ROC.png")
+
+if __name__ == '__main__':
+    cls = LassoModel()
+    cls.save_feature_importances()
+    cls.calc_test_statistics()
