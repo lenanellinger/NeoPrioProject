@@ -2,11 +2,15 @@ import os
 import pandas as pd
 import shutil
 
+"""
+Checks if for all commands in commands_quality_filtered.sh a valid output was generated or if an error occured.
+Commands which are not associated with a valid output are written in commands_missing.sh and can be retried.
+"""
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
-with open('/mnt/storage2/users/ahnelll1/master_thesis/commands_quality_filtered.sh', 'r') as fi:
-    with open('/mnt/storage2/users/ahnelll1/master_thesis/commands_missing.sh', 'w') as fo:
+with open('/mnt/storage2/users/ahnelll1/master_thesis/commands/commands_quality_filtered.sh', 'r') as fi:
+    with open('/mnt/storage2/users/ahnelll1/master_thesis/commans/commands_missing.sh', 'w') as fo:
         lines = fi.readlines()
         for cohort in os.listdir(directory):
             for method in os.listdir(os.path.join(directory, cohort)):
@@ -27,13 +31,16 @@ with open('/mnt/storage2/users/ahnelll1/master_thesis/commands_quality_filtered.
                     if os.path.isfile(os.path.join(file, "pVACseq", "MHC_Class_I", sample.split("-")[0] + ".filtered.tsv")):
                         tsv = pd.read_csv(os.path.join(file, "pVACseq", "MHC_Class_I", sample.split("-")[0] + ".filtered.tsv"), sep="\t", header=0)
                         if not os.path.isdir(os.path.join(file, "neofox")):
+                            # no neofox folder
                             fo.write(command)
                             out.append(sample)
                         elif len([name for name in os.listdir(os.path.join(file, "neofox"))]) == 0 and tsv.shape[0] > 0:
+                            # neoepitopes in pVACseq output, but no neofox output file
                             fo.write(command)
-                            shutil.rmtree(os.path.join(directory, cohort, method, sample, 'neofox'))
                             out.append(sample)
+                            shutil.rmtree(os.path.join(directory, cohort, method, sample, 'neofox'))
                     else:
+                        # No pVACseq output
                         if os.path.isdir(os.path.join(file, "neofox")):
                             shutil.rmtree(os.path.join(directory, cohort, method, sample, 'neofox'))
                         else:

@@ -1,6 +1,10 @@
 import os
 import shutil
 
+"""
+Deletes all neofox output folders in output folder structure
+"""
+
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
 
 for cohort in os.listdir(directory):
