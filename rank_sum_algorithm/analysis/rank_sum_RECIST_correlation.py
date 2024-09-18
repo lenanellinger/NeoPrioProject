@@ -16,14 +16,14 @@ response_map = {
 }
 
 prediction_weighted = []
-topx = 10
-step_size = 25
+topx = 3
+step_size = 1
 
 def sum_top_x(df, column, number):
     sorted_scores = df[column].sort_values(ascending=False)
     top_10_scores = sorted_scores.head(number)
     
-    return top_10_scores.sum()
+    return top_10_scores.mean()
 
 for method in os.listdir(directory):
     if os.path.isfile(os.path.join(directory, method)):
@@ -48,6 +48,7 @@ for method in os.listdir(directory):
         prediction_weighted.append([tumor, normal, sum_top_x(weighted_rank_sum_out, 'qscore', topx), metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].values[0]])
 
 df_prediction_weighted = pd.DataFrame(prediction_weighted, columns=['TUMOR', 'NORMAL', 'QSCORE', 'RESPONSE'])
+df_prediction_weighted["RESPONSE_BINARY"] = df_prediction_weighted["RESPONSE"].apply(lambda x: response_map[x])
 pred_labels = (df_prediction_weighted['QSCORE'] > 5.5).astype(int)
 
 recist_score = [response_map[r] for r in df_prediction_weighted['RESPONSE']]
@@ -67,3 +68,6 @@ print("AUC:", auc)
 # Boxplot
 sns.boxplot(data=df_prediction_weighted, x="RESPONSE", y="QSCORE")
 plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/responder_top{topx}_qscore_{step_size}_boxplot.png")
+plt.clf()
+sns.boxplot(data=df_prediction_weighted, x="RESPONSE_BINARY", y="QSCORE")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/responder_binary_top{topx}_qscore_{step_size}_boxplot.png")

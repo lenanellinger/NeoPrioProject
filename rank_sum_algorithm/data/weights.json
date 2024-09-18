@@ -7,7 +7,7 @@
     "recognition_potential": 1.4404233398047182e-16,
     "hex_alignment_score": 0.05860838095649245,
     "PRIME_score": 0.15745730285831225,
-    "imputedGeneExpression": 0.14772266991185248,
-    "Priority_score_imputed_fromDNA": 0.0909090909090909,
-    "Priority_score_imputed_fromRNA": 0.0909090909090909
+    "gene_expression": 0.14772266991185248,
+    "Priority_score_fromDNA": 0.0909090909090909,
+    "Priority_score_fromRNA": 0.0909090909090909
 }

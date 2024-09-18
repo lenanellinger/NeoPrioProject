@@ -2,17 +2,19 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import sys
 
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error
 
 from scipy.stats import pearsonr
 
+sys.path.append(sys.path[0] + '/../..')
 from analysis.helpers.get_data import get_relevant_features_neofox
 from rank_sum_algorithm.weight_calc.random_forest_model import RandomForestModel
 
 rf = RandomForestModel()
-step_size = 25
+step_size = 1
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 features_qscore = None
@@ -37,7 +39,7 @@ for cohort in os.listdir(directory):
                 features_qscore = pd.concat([features_qscore, weighted_rank_sum_out])
 
 qscores = features_qscore.loc[:, ['qscore']]
-features = features_qscore.loc[:, get_relevant_features_neofox()]
+features = features_qscore.loc[:, [name for name in get_relevant_features_neofox() if not name.startswith("Priority_score")]]
 features['Selfsimilarity_conserved_binder'] = features['Selfsimilarity_conserved_binder'].fillna(0)
 
 features = np.array(features)
@@ -63,8 +65,8 @@ plt.scatter(qscores, pred_proba, alpha=0.5)
 plt.plot([min(qscores), max(qscores)], [min(qscores), max(qscores)], color='red', linestyle='--')  # y=x line
 plt.xlabel("Predictions 1")
 plt.ylabel("Predictions 2")
-plt.title(f"Scatter Plot (Pearson r = {pearson_corr:.2f})")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/qscore_rf_scatter_{step_size}.png")
+plt.title(f"Scatter Plot (Pearson r = {pearson_corr.statistic:.2f})")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/qscore_rf_scatter_{step_size}.png")
 
 # Bland-Altman Plot
 mean_pred = (qscores + pred_proba) / 2
@@ -80,4 +82,4 @@ plt.axhline(mean_diff - 1.96 * std_diff, color='blue', linestyle='--')
 plt.xlabel("Mean of Predictions")
 plt.ylabel("Difference between Predictions")
 plt.title("Bland-Altman Plot")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/qscore_rf_bland_altman_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/qscore_rf_bland_altman_{step_size}.png")

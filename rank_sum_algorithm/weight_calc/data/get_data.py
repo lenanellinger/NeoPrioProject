@@ -1,12 +1,13 @@
 import os
 import pandas as pd
 import numpy as np
+import sys
 
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 
-sys.path.append(sys.path[0] + '/../../../analysis')
-from helpers.get_data import get_relevant_features_neofox
+sys.path.append(sys.path[0] + '/../../..')
+from analysis.helpers.get_data import get_relevant_features_neofox
 
 directory_ml = "/mnt/storage2/users/ahnelll1/master_thesis/output_training_data"
 

@@ -70,7 +70,7 @@ def ranking(input_df, meta_columns, step_size):
     features = json.load(f)
     f.close()
 
-    f = open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/weights.json')
+    f = open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/weights.json')
     weights = json.load(f)
     f.close()
 

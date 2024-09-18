@@ -2,13 +2,15 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import json
+import sys
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 from sklearn.inspection import permutation_importance
 
+sys.path.append(sys.path[0] + '/../..')
 from analysis.helpers.get_data import get_relevant_features_neofox
-from data.get_data import get_train_data
+from rank_sum_algorithm.weight_calc.data.get_data import get_train_data
 
 
 class RandomForestModel:
