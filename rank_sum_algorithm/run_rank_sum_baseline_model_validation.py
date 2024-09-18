@@ -61,7 +61,7 @@ for method in os.listdir(os.path.join(directory, cohort)):
 
         df_concat = pd.concat([baseline, annotations_df])
 
-        output = ranking(df_concat, ['cohort'])
+        output = ranking(df_concat, ['cohort'], 25)
         output_sorted = output.sort_values('rank_sum', ascending=True).reset_index(drop=True)
         response = response_map[metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].values[0]]
         if output_sorted[output_sorted['cohort'] == 'external'].shape[0] > 0:

@@ -44,29 +44,29 @@ def create_annotations_df(pvacseq_filename, neofox_filename):
     return annotation_df_prefiltered
 
 
-def rank_sum_qscore(pvacseq_filename, neofox_filename):
+def rank_sum_qscore(pvacseq_filename, neofox_filename, step_size):
     output_df = ranking(create_annotations_df(pvacseq_filename, neofox_filename),
-                        ['Transcript', 'Chromosome', 'Start', 'Stop'])
+                        ['Transcript', 'Chromosome', 'Start', 'Stop'], step_size)
 
     output_df.to_csv(
         os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(neofox_filename))),
-                     'rank_sum_weighted_out_25_v3.tsv'),
+                     f'rank_sum_weighted_out_{step_size}.tsv'),
         sep='\t', index=False, header=True)
 
 
-def rank_sum_qscore_training_data(neofox_filename):
+def rank_sum_qscore_training_data(neofox_filename, step_size):
     neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
 
-    output_df = ranking(neofox_df, ['patientIdentifier'])
+    output_df = ranking(neofox_df, ['patientIdentifier'], step_size)
 
     output_df.to_csv(os.path.join(os.path.abspath(os.path.dirname(neofox_filename)),
                                   os.path.splitext(os.path.basename(neofox_filename))[
-                                      0] + '_rank_sum_weighted_out_25.tsv'),
+                                      0] + f'_rank_sum_weighted_out_{step_size}.tsv'),
                      sep='\t', index=False, header=True)
 
 
-def ranking(input_df, meta_columns):
-    f = open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_25.json')
+def ranking(input_df, meta_columns, step_size):
+    f = open(f'/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_{step_size}.json')
     features = json.load(f)
     f.close()
 

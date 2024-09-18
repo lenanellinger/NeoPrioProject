@@ -9,4 +9,4 @@ directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_training_data"
 
 neofox_filename = os.path.join(directory, "NEPdb_neofox_annotations.tsv")
 
-rank_sum_qscore_training_data(neofox_filename)
+rank_sum_qscore_training_data(neofox_filename, 25)

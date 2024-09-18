@@ -1,11 +1,7 @@
-import os
-import numpy as np
-import json
 import sys
-from optparse import OptionParser
 
 sys.path.append(sys.path[0] + '/..')
-from analysis.helpers.get_data import get_relevant_features, get_feature_data
+from analysis.helpers.get_data import get_feature_data
 
 
 def main(argv):  
