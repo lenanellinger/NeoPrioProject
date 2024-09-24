@@ -25,7 +25,8 @@ def create_annotations_df(pvacseq_filename, neofox_filename):
     neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
 
     if neofox_df.shape[0] != pvacseq_df.shape[0]:
-        raise ValueError("Neofox output and pVACseq output should have the same amount of rows.")
+        raise ValueError("Neofox output and pVACseq output should have the same amount of rows.") 
+        raise ValueError("Neofox output and pVACseq output should have the same amount of rows.") 
     annotation_df = neofox_df.merge(
         right=pvacseq_df.loc[:, ['Chromosome', 'Start', 'Stop', 'Transcript', 'Variant Type',
                                  'MHCflurry WT IC50 Score', 'MHCflurry MT IC50 Score', 'MHCflurry WT Percentile',
@@ -86,10 +87,15 @@ def ranking(input_df, meta_columns, step_size):
         # Ranking
         column_name_rank = feature_name + '_rank'
         if feature_name == 'Selfsimilarity_conserved_binder':
-            # if Selfsimilarity is NaN, the DAI is almost zero -> NaN would be preferable
+            # if Selfsimilarity is NaN, the DAI is not almost zero -> NaN would be preferable if DAI >> 0, but if DAI << 0 not preferable
             rank_column = output_df[feature_name].rank(method='max',
                                                        ascending=features[feature_name]['direction'] == 'lower',
-                                                       na_option='top')
+                                                       na_option='keep')
+            preferable_na_count = (output_df[feature_name].isna() & (output_df['DAI'] > 0)).sum()
+            rank_column = rank_column + preferable_na_count
+            rank_column[output_df[feature_name].isna() & (output_df['DAI'] > 0)] = preferable_na_count
+
+            rank_column[output_df[feature_name].isna() & (output_df['DAI'] <= 0)] = rank_column.size
         elif feature_name == 'imputedGeneExpression':
             output_df.insert(index, 'rnaExpression', input_df['rnaExpression'])
             index += 1

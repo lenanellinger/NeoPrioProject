@@ -14,7 +14,7 @@ from analysis.helpers.get_data import get_relevant_features_neofox
 from rank_sum_algorithm.weight_calc.random_forest_model import RandomForestModel
 
 rf = RandomForestModel()
-step_size = 1
+step_size = 25
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 features_qscore = None
@@ -37,11 +37,14 @@ for cohort in os.listdir(directory):
                 features_qscore = weighted_rank_sum_out
             else:
                 features_qscore = pd.concat([features_qscore, weighted_rank_sum_out])
-
+features_qscore.reset_index(drop=True, inplace=True)
 qscores = features_qscore.loc[:, ['qscore']]
 features = features_qscore.loc[:, [name for name in get_relevant_features_neofox() if not name.startswith("Priority_score")]]
-features['Selfsimilarity_conserved_binder'] = features['Selfsimilarity_conserved_binder'].fillna(0)
 
+for i, row in features.iterrows():
+    if np.isnan(row['Selfsimilarity_conserved_binder']):
+        features.loc[i, 'Selfsimilarity_conserved_binder'] = 0 if (features.loc[i, 'DAI'] > 0) else 1
+print(features['Selfsimilarity_conserved_binder'])
 features = np.array(features)
 qscores = np.array(qscores).flatten()
 

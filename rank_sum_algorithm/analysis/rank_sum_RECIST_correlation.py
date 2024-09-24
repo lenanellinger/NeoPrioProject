@@ -16,8 +16,8 @@ response_map = {
 }
 
 prediction_weighted = []
-topx = 3
-step_size = 1
+topx = 10
+step_size = 25
 
 def sum_top_x(df, column, number):
     sorted_scores = df[column].sort_values(ascending=False)

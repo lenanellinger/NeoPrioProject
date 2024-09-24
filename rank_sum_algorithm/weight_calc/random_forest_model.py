@@ -8,9 +8,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 from sklearn.inspection import permutation_importance
 
-sys.path.append(sys.path[0] + '/../..')
-from analysis.helpers.get_data import get_relevant_features_neofox
-from rank_sum_algorithm.weight_calc.data.get_data import get_train_data
+sys.path.append(sys.path[0] + '/../../analysis')
+from helpers.get_data import get_relevant_features_neofox
+sys.path.append(sys.path[0] + '/../../rank_sum_algorithm')
+from weight_calc.data.get_data import get_train_data
 
 
 class RandomForestModel:
@@ -47,8 +48,7 @@ class RandomForestModel:
 
         weights = {}
         for feature, weight in zip(feature_list, feature_weights_adjusted):
-            weights[feature] = weight
-
+            weights[feature] = weight if weight > 0 else 1e-10
         total = 1
         for feature in get_relevant_features_neofox():
             if feature not in weights:
@@ -64,7 +64,7 @@ class RandomForestModel:
         sorted_importances_idx = result.importances_mean.argsort()
         importances = pd.DataFrame(
             result.importances[sorted_importances_idx].T,
-            columns=feature_list[sorted_importances_idx],
+            columns=np.array(feature_list)[sorted_importances_idx],
         )
         ax = importances.plot.box(vert=False, whis=10)
         ax.set_title("Permutation Importances (test set)")

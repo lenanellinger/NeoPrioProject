@@ -6,8 +6,8 @@ import sys
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 
-sys.path.append(sys.path[0] + '/../../..')
-from analysis.helpers.get_data import get_relevant_features_neofox
+sys.path.append(sys.path[0] + '/../../../analysis')
+from helpers.get_data import get_relevant_features_neofox
 
 directory_ml = "/mnt/storage2/users/ahnelll1/master_thesis/output_training_data"
 
@@ -30,8 +30,9 @@ def get_train_data():
 
     features_with_meta = features_with_meta.loc[:, ['patientIdentifier'] + [name for name in all_feature_names if
                                                                             not name.startswith("Priority_score")]]
-    features_with_meta['Selfsimilarity_conserved_binder'] = features_with_meta[
-        'Selfsimilarity_conserved_binder'].fillna(0)
+    for i, row in features_with_meta.iterrows():
+        if features_with_meta.isnull().loc[i, 'Selfsimilarity_conserved_binder']:
+            features_with_meta.loc[i, 'Selfsimilarity_conserved_binder'] = 0 if (features_with_meta.loc[i, 'DAI'] > 0) else 1
 
     features_with_meta_array = np.array(features_with_meta)
 

@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 import matplotlib.pyplot as plt
 
-step_size = 1
+step_size = 25
 
 response = pd.read_csv("/mnt/storage2/users/ahnelll1/master_thesis/output_training_data/NEPdb_neofox_annotations.tsv", sep="\t", header=0).loc[:, ["patientIdentifier", "response"]].sort_values(by=['patientIdentifier'])
 rank_sum = pd.read_csv(f"/mnt/storage2/users/ahnelll1/master_thesis/output_training_data/NEPdb_neofox_annotations_rank_sum_weighted_out_{step_size}.tsv", sep="\t", header=0).sort_values(by=['patientIdentifier'])
