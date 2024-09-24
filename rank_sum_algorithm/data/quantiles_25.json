@@ -2,9 +2,9 @@
     "DAI": {
         "direction": "upper",
         "quantiles": [
-            -0.5125,
-            98.58,
-            1999.375
+            -0.98,
+            100.39,
+            1978.5
         ]
     },
     "dissimilarity_score": {
@@ -18,25 +18,25 @@
     "IEDB_Immunogenicity": {
         "direction": "upper",
         "quantiles": [
-            -0.14553,
-            -0.00534,
-            0.125755
+            -0.14843,
+            -0.00778,
+            0.12388
         ]
     },
     "MixMHCpred_score": {
         "direction": "lower",
         "quantiles": [
-            -0.820175,
-            -0.39354,
-            0.014777499999999999
+            -0.8269825000000001,
+            -0.40103,
+            0.0077225
         ]
     },
     "Selfsimilarity_conserved_binder": {
         "direction": "lower",
         "quantiles": [
-            0.9437553864760694,
-            0.954154536526617,
-            0.9670016415577518
+            0.9440123430203455,
+            0.9543131814885448,
+            0.9670955424180638
         ]
     },
     "recognition_potential": {
@@ -44,47 +44,47 @@
         "quantiles": [
             0.0,
             0.0,
-            8e-05
+            7e-05
         ]
     },
     "Priority_score_imputed_fromDNA": {
         "direction": "upper",
         "quantiles": [
-            0.0109,
-            0.1382,
-            0.21596
+            0.01117,
+            0.139,
+            0.218445
         ]
     },
     "Priority_score_imputed_fromRNA": {
         "direction": "upper",
         "quantiles": [
-            0.1584925,
-            0.221935,
-            0.319685
+            0.15922,
+            0.2225,
+            0.32135
         ]
     },
     "hex_alignment_score": {
         "direction": "upper",
         "quantiles": [
             167.0,
-            188.0,
+            189.0,
             211.0
         ]
     },
     "PRIME_score": {
         "direction": "lower",
         "quantiles": [
-            0.0495525,
-            0.0968,
-            0.15963
+            0.047647499999999995,
+            0.09472,
+            0.1574525
         ]
     },
     "imputedGeneExpression": {
         "direction": "upper",
         "quantiles": [
-            0.0831945924,
-            1.8559231977,
-            7.839177155
+            0.08387392469999999,
+            1.8718073821,
+            7.77980026235
         ]
     }
 }

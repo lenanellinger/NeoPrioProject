@@ -13,10 +13,24 @@ def get_feature_data(prefilter=True, cohorts=['AxelMelanomaPhD', 'SomaticAndTrea
         file = os.path.join(directory, cohort, cohort + "_all.tsv")
         features = pd.read_csv(file, sep="\t", header=0)
         
+        weights = {
+            'MHCflurry MT IC50 Score': 0.4,
+            'NetMHCpan MT IC50 Score': 0.4,
+            'NetMHC MT IC50 Score': 0.2
+        }
+        
         features['IC50 mean'] = features.loc[:, ['NetMHC MT IC50 Score', 'NetMHCpan MT IC50 Score', 'MHCflurry MT IC50 Score']].mean(axis=1)
-        features['IC50 weighted mean'] = features['MHCflurry MT IC50 Score'] * 0.4 + \
-                                         features['NetMHCpan MT IC50 Score'] * 0.4 + \
-                                         features['NetMHC MT IC50 Score'] * 0.2
+        
+        def weighted_mean(row):
+            score_sum = 0
+            weight_sum = 0
+            for feature, weight in weights.items():
+                if not pd.isna(row[feature]):  # Skip NaN values
+                    score_sum += row[feature] * weight
+                    weight_sum += weight
+            return score_sum / weight_sum if weight_sum > 0 else np.nan
+
+        features['IC50 weighted mean'] = features.apply(weighted_mean, axis=1)
         features['cohort'] = cohort
         
         if prefilter:

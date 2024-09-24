@@ -6,7 +6,7 @@ from helpers.get_data import get_feature_data, get_relevant_features
 import sys
 from optparse import OptionParser
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/cohorts"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/cohorts"
 
 def main(argv):
     usage = "usage: python cohorts_comparison_violin.py --prefilter"
