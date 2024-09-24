@@ -9,7 +9,7 @@ rank_sum = pd.read_csv(f"/mnt/storage2/users/ahnelll1/master_thesis/output_train
 
 # Test Set
 pred_labels = [0 if qscore < 0.5 else 1 for qscore in rank_sum["qscore"]]
-test_labels = [0 if label == 'N' else 1 for label in response["response"]]
+test_labels = [0 if response[response['patientIdentifier'] == patient]['response'].values[0] == 'N' else 1 for patient in rank_sum["patientIdentifier"]]
 
 accuracy = accuracy_score(test_labels, pred_labels)
 precision = precision_score(test_labels, pred_labels)

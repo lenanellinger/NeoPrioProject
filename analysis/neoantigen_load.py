@@ -24,34 +24,35 @@ def main(argv):
     relevant_features = get_relevant_features_neofox(True)
     feature_data = get_feature_data(prefilter, cohorts)
     
-    fig, axes = plt.subplots(2, 1, sharex=True, sharey=True, figsize=(12,8))
+    fig, axes = plt.subplots(1, 1, sharex=True, sharey=True, figsize=(12,8))
     
-    # after majority vote prefilter
+    # after prefilter
     sizes = []
     for i in range(np.nanmax(feature_data['sample_id'])):
-        if (feature_data['sample_id'] == i).sum() <= 500:
-            sizes.append((feature_data['sample_id'] == i).sum())
+        sizes.append((feature_data['sample_id'] == i).sum())
     sizes.sort()
-    sns.histplot(sizes, kde=True, bins=50, ax=axes[0])
-    axes[0].set_title("after binding filter majority vote")
-    axes[0].set_xlim([0, 500])
+    sns.histplot(sizes, kde=True, binwidth=10, ax=axes)
+    axes.set_xlim([0, 500])
+    axes.set_title("Neoepitope load per patient after binding filter")
+    axes.set_xlabel("#neoepitopes")
+    axes.set_ylabel("#patients")
     
     # after features postfilter
-    for feature in relevant_features:
-        if 'cutoff' not in feature:
-            continue
-        if feature['quantile'] == 'lower':
-            feature_data = feature_data[feature_data[feature['name']] < feature['cutoff']]
-        else:
-            feature_data = feature_data[feature_data[feature['name']] > feature['cutoff']]
-    sizes = []
-    for i in range(np.nanmax(feature_data['sample_id'])):
-        if (feature_data['sample_id'] == i).sum() <= 500:
-            sizes.append((feature_data['sample_id'] == i).sum())
-    sizes.sort()
-    sns.histplot(sizes, kde=True, bins=50, ax=axes[1])
-    axes[1].set_title("after features filter")
-    axes[1].set_xlim([0, 500])
+    #for feature in relevant_features:
+    #    if 'cutoff' not in feature:
+    #        continue
+    #    if feature['quantile'] == 'lower':
+    #        feature_data = feature_data[feature_data[feature['name']] < feature['cutoff']]
+    #    else:
+    #        feature_data = feature_data[feature_data[feature['name']] > feature['cutoff']]
+    #sizes = []
+    #for i in range(np.nanmax(feature_data['sample_id'])):
+    #    if (feature_data['sample_id'] == i).sum() <= 500:
+    #        sizes.append((feature_data['sample_id'] == i).sum())
+    #sizes.sort()
+    #sns.histplot(sizes, kde=True, bins=50, ax=axes[1])
+    #axes[1].set_title("after features filter")
+    #axes[1].set_xlim([0, 500])
     
         
     plt.savefig(os.path.join(output_dir, 'neoantigen_load_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)

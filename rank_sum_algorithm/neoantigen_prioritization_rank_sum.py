@@ -39,8 +39,22 @@ def create_annotations_df(pvacseq_filename, neofox_filename):
         on=['Chromosome', 'Start', 'Stop', 'Transcript'])
 
     # Prefilter (weighted average below 500)
-    annotation_df_prefiltered = annotation_df[(annotation_df['MHCflurry MT IC50 Score'] * 0.4 + annotation_df[
-        'NetMHCpan MT IC50 Score'] * 0.4 + annotation_df['NetMHC MT IC50 Score'] * 0.2) < 500]
+    weights = {
+        'MHCflurry MT IC50 Score': 0.4,
+        'NetMHCpan MT IC50 Score': 0.4,
+        'NetMHC MT IC50 Score': 0.2
+    }
+    def weighted_mean(row):
+        score_sum = 0
+        weight_sum = 0
+        for feature, weight in weights.items():
+            if not pd.isna(row[feature]):  # Skip NaN values
+                score_sum += row[feature] * weight
+                weight_sum += weight
+        return score_sum / weight_sum if weight_sum > 0 else np.nan
+
+    annotation_df['IC50 weighted mean'] = annotation_df.apply(weighted_mean, axis=1)
+    annotation_df_prefiltered = annotation_df[annotation_df['IC50 weighted mean'] < 500]
 
     return annotation_df_prefiltered
 
@@ -57,8 +71,8 @@ def rank_sum_qscore(pvacseq_filename, neofox_filename, step_size):
 
 def rank_sum_qscore_training_data(neofox_filename, step_size):
     neofox_df = pd.read_csv(neofox_filename, sep="\t", header=0)
-
-    output_df = ranking(neofox_df, ['patientIdentifier'], step_size)
+    neofox_df_filter = neofox_df[neofox_df['affinityMutated'] < 500]
+    output_df = ranking(neofox_df_filter, ['patientIdentifier'], step_size)
 
     output_df.to_csv(os.path.join(os.path.abspath(os.path.dirname(neofox_filename)),
                                   os.path.splitext(os.path.basename(neofox_filename))[
