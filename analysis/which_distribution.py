@@ -11,17 +11,17 @@ from statsmodels.graphics.gofplots import qqplot
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features/neofox/distributions"
 
 def main(argv):
-    usage = "usage: python features_neofox_plots.py -f <feature> --majority-vote"
+    usage = "usage: python features_neofox_plots.py -f <feature> --prefilter"
     desc = "Creates plots for neofox features."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
     parser.add_option("-f", "--feature", action="store", dest="feature", default=False, help="Feature Name")
     (options, args) = parser.parse_args()
     
-    majority_vote = options.majority_vote
+    prefilter = options.prefilter
     cohorts = ['AxelMelanomaPhD', 'SomaticAndTreatment']
     
-    feature_data = get_feature_data(majority_vote, cohorts)[options.feature].dropna()
+    feature_data = get_feature_data(prefilter, cohorts)[options.feature].dropna()
    
     
     # descriptive statistics
@@ -39,7 +39,7 @@ def main(argv):
     
     fig = plt.figure(figsize=(12,8))
     qqplot(feature_data, line='45')
-    plt.savefig(os.path.join(output_dir, options.feature + '_qqplot' + ('_majority_vote' if majority_vote else '') + '.png'))
+    plt.savefig(os.path.join(output_dir, options.feature + '_qqplot' + ('_prefilter' if prefilter else '') + '.png'))
     
     
 if __name__ == "__main__":

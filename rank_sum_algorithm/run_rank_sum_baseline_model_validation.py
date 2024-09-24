@@ -3,7 +3,7 @@ import pandas as pd
 from neoantigen_prioritization_rank_sum import ranking, create_annotations_df
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
-directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_background"
+directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 
 # create baseline
 cohort = "SomaticAndTreatment"
@@ -61,7 +61,7 @@ for method in os.listdir(os.path.join(directory, cohort)):
 
         df_concat = pd.concat([baseline, annotations_df])
 
-        output = ranking(df_concat, ['cohort'])
+        output = ranking(df_concat, ['cohort'], 25)
         output_sorted = output.sort_values('rank_sum', ascending=True).reset_index(drop=True)
         response = response_map[metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].values[0]]
         if output_sorted[output_sorted['cohort'] == 'external'].shape[0] > 0:

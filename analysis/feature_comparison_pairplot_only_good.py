@@ -10,19 +10,19 @@ import os
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features"
 
 def main(argv):
-    usage = "usage: python feature_comparison_pairplot_only_good.py --majority-vote"
+    usage = "usage: python feature_comparison_pairplot_only_good.py --prefilter"
     desc = "Creates pairplot for pvacseq and neofox features which only plots sample which have a good value in both features."
     parser = OptionParser(usage=usage, description=desc)
     parser.add_option("-p", "--percentage", action="store", dest="percentage", default=10, type=int, help="Qunaile percentage used to filter")
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
     (options, args) = parser.parse_args()
     
     quantile = options.percentage / 100
-    majority_vote = options.majority_vote
+    prefilter = options.prefilter
     cohorts = ['AxelMelanomaPhD', 'SomaticAndTreatment']
     
     relevant_features = get_relevant_features(True)
-    feature_data = get_feature_data(majority_vote, cohorts)
+    feature_data = get_feature_data(prefilter, cohorts)
     fig = plt.figure(figsize=(20,20))
     gs = gridspec.GridSpec(len(relevant_features)-1, len(relevant_features)-1)
     row = 0
@@ -53,7 +53,7 @@ def main(argv):
         else:
             column += 1
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, 'features_pairplot_good_' + str(options.percentage) + ('_majority_vote' if majority_vote else '') + '.png'))
+    plt.savefig(os.path.join(output_dir, 'features_pairplot_good_' + str(options.percentage) + ('_prefilter' if prefilter else '') + '.png'))
     
 if __name__ == "__main__":
     main(sys.argv)

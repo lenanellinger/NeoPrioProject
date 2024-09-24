@@ -9,16 +9,16 @@ from optparse import OptionParser
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/cohorts"
 
 def main(argv):
-    usage = "usage: python cohorts_comparison_violin.py --majority-vote"
+    usage = "usage: python cohorts_comparison_violin.py --prefilter"
     desc = "Creates violin plot for pvacseq and neofox features."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens should be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens should be filtered by majority vote of binding tools")
     (options, args) = parser.parse_args()
 
-    majority_vote=options.majority_vote
+    prefilter=options.prefilter
     cohorts=['AxelMelanomaPhD', 'SomaticAndTreatment']
     
-    features_data = get_feature_data(majority_vote, cohorts)
+    features_data = get_feature_data(prefilter, cohorts)
 
     relevant_features = get_relevant_features(True)
 
@@ -34,7 +34,7 @@ def main(argv):
         if i != len(relevant_features) - 1:
             ax_violin.get_legend().set_visible(False)
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, 'features_violin' + ('_majority_vote' if majority_vote else '') + '.png'))
+    plt.savefig(os.path.join(output_dir, 'features_violin' + ('_prefilter' if prefilter else '') + '.png'))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,49 @@
+AxelMelanomaPhD
+	DAI Priority_score_imputed_fromRNA pearson correlation: 0.40709805159802337
+	MixMHCpred_score PRIME_score pearson correlation: 0.800096904522499
+	MixMHCpred_score PRIME_score kendall correlation: 0.6203643106233737
+	MixMHCpred_score PRIME_score spearman correlation: 0.8156407018398166
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8646809094561799
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.6538178568181998
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.8295754844507911
+	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6014009024350955
+	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7564698220552898
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.4313141454685739
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5742860613107292
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7614887953396976
+	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4926752268990128
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.48292477938728107
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6748943667162074
+SomaticAndTreatment
+	DAI Priority_score_imputed_fromRNA pearson correlation: 0.4422600646753306
+	DAI Priority_score_imputed_fromRNA spearman correlation: 0.446583178797467
+	MixMHCpred_score PRIME_score pearson correlation: 0.8005178936467418
+	MixMHCpred_score PRIME_score kendall correlation: 0.616500112287888
+	MixMHCpred_score PRIME_score spearman correlation: 0.8116433100612481
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8099336363902252
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.5878075606372403
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.7785220165932597
+	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6387189826121672
+	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7927568007346063
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.42171979089682793
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5589611825828451
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7498625343523133
+	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4520663298526
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.4637019958814391
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6520551467737675
+merged
+	DAI Priority_score_imputed_fromRNA pearson correlation: 0.4109474779697623
+	MixMHCpred_score PRIME_score pearson correlation: 0.8001865254716809
+	MixMHCpred_score PRIME_score kendall correlation: 0.6199807483099876
+	MixMHCpred_score PRIME_score spearman correlation: 0.8152770522618003
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.858739790841112
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.6489600052630689
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.8260055405636572
+	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6063656012142411
+	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7613990597526117
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.43010743594364853
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5723301482932711
+	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7600421049106916
+	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4873552501795325
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.48023103204386713
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6717905791146594

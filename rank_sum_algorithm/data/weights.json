@@ -1,0 +1,13 @@
+{
+    "DAI": 0.04979031922533781,
+    "dissimilarity_score": 8.181818181818182e-11,
+    "IEDB_Immunogenicity": 0.043511735624047726,
+    "MixMHCpred_score": 0.15347954376410422,
+    "Selfsimilarity_conserved_binder": 0.13526988228731077,
+    "recognition_potential": 8.181818181818182e-11,
+    "hex_alignment_score": 8.181818181818182e-11,
+    "PRIME_score": 0.18881919827860968,
+    "gene_expression": 0.27811344548164163,
+    "Priority_score_fromDNA": 0.09090909090909088,
+    "Priority_score_fromRNA": 0.09090909090909088
+}

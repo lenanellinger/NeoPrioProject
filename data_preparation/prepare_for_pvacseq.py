@@ -1,7 +1,5 @@
 import pysam
 import pysamstats
-from optparse import OptionParser
-import sys
 import pandas as pd
 import os
 import logging
@@ -109,8 +107,8 @@ def convert_strelka_input(snv, sample):
     snv.samples[sample]["GT"] = (0,1)
     
     #Add tumor/normal AF and AD
-    snv_fields = set(["AU", "CU", "GU", "TU"])
-    indel_fields = set(["TIR", "TAR"])
+    snv_fields = {"AU", "CU", "GU", "TU"}
+    indel_fields = {"TIR", "TAR"}
     if snv_fields.issubset( set(snv.samples[sample].keys()) ) :
         (A1,A2) = snv.samples[sample]["AU"]
         (C1,C2) = snv.samples[sample]["CU"]
@@ -139,7 +137,7 @@ def convert_strelka_input(snv, sample):
         snv.samples[sample]["AF"] = af
         snv.samples[sample]["AD"] = TIR
     else:
-        loggin.error("Could not parse STRELKA variant:", snv)
+        logging.error("Could not parse STRELKA variant:", snv)
         exit(1)
 
 def annotate_RNA_data(snv, sample, rna_bam, expr_file):    

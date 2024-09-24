@@ -11,17 +11,17 @@ import seaborn as sns
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features/pvacseq"
 
 def main(argv):
-    usage = "usage: python features_pvacseq_plots.py --majority-vote"
+    usage = "usage: python features_pvacseq_plots.py --prefilter"
     desc = "Creates plots for pVACseq features."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens shouldd be filtered by majority vote of binding tools")
     (options, args) = parser.parse_args()
     
-    majority_vote = options.majority_vote
+    prefilter = options.prefilter
     cohorts = ['AxelMelanomaPhD', 'SomaticAndTreatment']
     
     relevant_features = get_relevant_features_pvacseq()
-    feature_data = get_feature_data(majority_vote, cohorts)
+    feature_data = get_feature_data(prefilter, cohorts)
 
     fig, axes = plt.subplots(3, 1, sharex=True, figsize=(12,8))
     
@@ -32,7 +32,7 @@ def main(argv):
         axes[i].set_title(feature)
 
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, 'binding_plots_' + '_'.join(cohorts) + ('_majority_vote' if majority_vote else '') + '.png'), bbox_inches='tight', dpi=100)
+    plt.savefig(os.path.join(output_dir, 'binding_plots_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
     plt.figure().clear()
     
 if __name__ == "__main__":

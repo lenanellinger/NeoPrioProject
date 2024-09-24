@@ -1,4 +1,3 @@
-import sys
 import subprocess
 import logging
     
@@ -8,9 +7,9 @@ def annotate_vep_for_pvacseq(input_file, output_file, vep_command="/mnt/storage2
     
     Keyword arguments:
     input_file -- Input somatic VCF
-    output_file -- Output VEP-annoated vcf.gz
+    output_file -- Output VEP-annotated vcf.gz
     vep_command -- Path to VEP instance (default: /mnt/storage2/megSAP/tools/ensembl-vep-release-110.1/vep)
-    threads -- Number of threads to be used (default: 4)
+    threads -- Number of threads to be used (default: 5)
     reference -- Path to reference genome (default: /mnt/storage2/megSAP/data/genomes/GRCh38.fa)
     cache -- Path to VEP cache dir (default: /tmp/local_ngs_data_GRCh38/ensembl-vep-110/)
     plugins -- Path to VEP plugin dir (default: /mnt/storage2/users/ahgscha1/phd/tools/VEP_plugins/)

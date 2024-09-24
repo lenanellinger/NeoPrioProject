@@ -12,17 +12,17 @@ from optparse import OptionParser
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images"
 
 def main(argv):
-    usage = "usage: python neoantigen_load.py --majority-vote"
+    usage = "usage: python neoantigen_load.py --prefilter"
     desc = "Creates plots for neofox features."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("--majority-vote", action="store_true", dest="majority_vote", default=False, help="If neoantigens should be filtered by majority vote of binding tools")
+    parser.add_option("--prefilter", action="store_true", dest="prefilter", default=False, help="If neoantigens should be filtered by majority vote of binding tools")
     (options, args) = parser.parse_args()
     
-    majority_vote = options.majority_vote
+    prefilter = options.prefilter
     cohorts = ['AxelMelanomaPhD', 'SomaticAndTreatment']
     
     relevant_features = get_relevant_features_neofox(True)
-    feature_data = get_feature_data(majority_vote, cohorts)
+    feature_data = get_feature_data(prefilter, cohorts)
     
     fig, axes = plt.subplots(2, 1, sharex=True, sharey=True, figsize=(12,8))
     
@@ -54,7 +54,7 @@ def main(argv):
     axes[1].set_xlim([0, 500])
     
         
-    plt.savefig(os.path.join(output_dir, 'neoantigen_load_' + '_'.join(cohorts) + ('_majority_vote' if majority_vote else '') + '.png'), bbox_inches='tight', dpi=100)
+    plt.savefig(os.path.join(output_dir, 'neoantigen_load_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
     
 if __name__ == "__main__":
     main(sys.argv)
