@@ -1,4 +1,6 @@
 import os
+from matplotlib import rc
+rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 25})
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -7,8 +9,9 @@ from helpers.get_data import get_feature_data, get_relevant_features_pvacseq
 import sys
 from optparse import OptionParser
 import seaborn as sns
+from matplotlib_venn import venn3
 
-output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/analysis/images/features/pvacseq"
+output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features/pvacseq"
 
 def main(argv):
     usage = "usage: python features_pvacseq_plots.py --prefilter"
@@ -22,18 +25,28 @@ def main(argv):
     
     relevant_features = get_relevant_features_pvacseq()
     feature_data = get_feature_data(prefilter, cohorts)
-
-    fig, axes = plt.subplots(3, 1, sharex=True, figsize=(12,8))
+    colors = ["#DD8047", "#A5AB81", "#94B6D2"]
     
-    for i, feature in enumerate(relevant_features): 
+    # IC50 histogram    
+    plt.figure(figsize=(16,8))
+
+    for feature, c in zip(relevant_features, colors): 
         feature_df = feature_data[feature].dropna()
         feature_df = feature_df[feature_df <= 1000]
-        sns.histplot(feature_df, kde=True, bins=50, ax=axes[i])
-        axes[i].set_title(feature)
-
-    plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, 'binding_plots_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
+        sns.kdeplot(feature_df, label=feature.replace("MT IC50 Score", ""), color=c, linewidth=4)
+    plt.legend()
+    plt.xlim([0, 1000])
+    plt.xlabel("Mutant IC50 Score")
+    plt.savefig(os.path.join(output_dir, 'binding_ic50_plots_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), dpi=300)
     plt.figure().clear()
+    
+    # venn diagram of epitopes per tool
+    sets = []
+    for feature in relevant_features: 
+        sets.append(set(list(feature_data[feature_data[feature] < 500].index.values)))
+ 
+    venn3(sets, tuple([f.replace("MT IC50 Score", "") for f in relevant_features]), set_colors=tuple(colors),alpha=0.7)
+    plt.savefig(os.path.join(output_dir, 'binding_venn_plots_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), dpi=300)
     
 if __name__ == "__main__":
     main(sys.argv)

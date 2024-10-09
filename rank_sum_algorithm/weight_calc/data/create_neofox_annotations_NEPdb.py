@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 from shutil import which
+import matplotlib.pyplot as plt
+import numpy as np
 
 from neofox.references.references import ReferenceFolder
 from neofox.model.factories import PatientFactory
@@ -23,11 +25,7 @@ def main():
     reference_folder = ReferenceFolder(organism='human')
     hla_database = reference_folder.get_mhc_database()
 
-    samples = pd.read_csv('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/weight_calc/data/NECID_Query.csv')
-
-    # filter length and MHC Class I and multiple identical samples (with different TCR information)
-    samples = samples[(samples['antigen_len'] >= 8) & (samples['antigen_len'] <= 14) & (~pd.isna(samples['alleleA'])) & (~samples["alleleA"].str.startswith("DQA", na=True))]
-    samples = samples.drop_duplicates(subset=['mut_peptide', 'wt_peptide', 'genesymbol', 'alleleA', 'Tumor Type'], keep='first')
+    samples = pd.read_csv('/mnt/storage2/users/ahnelll1/master_thesis/NECID_Query_updated.csv')
 
     tumor_type_mapping = {
         'Lung cancer': 'LUAD', 
@@ -46,28 +44,32 @@ def main():
         'Head and Neck cancer': 'HNSC'
     }
 
-    neoepitopes = [NeoepitopeFactory.build_neoepitope(
-        mutated_peptide=neoepitope['mut_peptide'],
-        wild_type_peptide=neoepitope['wt_peptide'] if len(neoepitope['wt_peptide']) == len(neoepitope['mut_peptide']) else None,
-        patient_identifier=str(neoepitope['id']),
-        gene=neoepitope['genesymbol'],
-        allele_mhc_i=neoepitope['alleleA'],
-        organism='human',
-        mhc_database=hla_database,
-        response=neoepitope['response']
-    ) for _, neoepitope in samples.iterrows()]
+    for name, group in samples.groupby('custom_id'):
+        neoepitopes = [NeoepitopeFactory.build_neoepitope(
+            mutated_peptide=neoepitope['mut_peptide'],
+            wild_type_peptide=neoepitope['wt_peptide'] if len(neoepitope['wt_peptide']) == len(neoepitope['mut_peptide']) else None,
+            patient_identifier=str(neoepitope['id']),
+            gene=neoepitope['genesymbol'],
+            allele_mhc_i=neoepitope['alleleA'],
+            rna_variant_allele_frequency=0.25,
+            dna_variant_allele_frequency=0.25,
+            organism='human',
+            mhc_database=hla_database,
+            response=neoepitope['response'],
+            custom_id=neoepitope['custom_id']
+        ) for _, neoepitope in group.iterrows()]
 
-    patients = [PatientFactory.build_patient(
-        identifier=str(neoepitope['id']),
-        mhc_alleles=[neoepitope['alleleA']],
-        mhc2_alleles=[],
-        mhc_database=hla_database,
-        tumor_type=tumor_type_mapping[neoepitope['Tumor Type']] if neoepitope['Tumor Type'] in tumor_type_mapping else None
-    ) for _, neoepitope in samples.iterrows()]
+        patients = [PatientFactory.build_patient(
+            identifier=str(neoepitope['id']),
+            mhc_alleles=[neoepitope['alleleA']],
+            mhc2_alleles=[],
+            mhc_database=hla_database,
+            tumor_type=tumor_type_mapping[neoepitope['Tumor Type']] if neoepitope['Tumor Type'] in tumor_type_mapping else None
+        ) for _, neoepitope in group.iterrows()]
 
-    annotated_neoepitopes = NeoFoxEpitope(neoepitopes=neoepitopes, patients=patients, num_cpus=1).get_annotations()
-    annotations_table = ModelConverter.annotated_neoepitopes2epitopes_table(neoepitopes=annotated_neoepitopes, mhc='mhcI')
-    annotations_table.to_csv(os.path.join("/mnt/storage2/users/ahnelll1/master_thesis/training_data", "NEPdb_neofox_annotations.tsv"), sep="\t", index=False)
+        annotated_neoepitopes = NeoFoxEpitope(neoepitopes=neoepitopes, patients=patients, num_cpus=5, log_file_name="/mnt/storage2/users/ahnelll1/master_thesis/output_training_data/log.txt").get_annotations()
+        annotations_table = ModelConverter.annotated_neoepitopes2epitopes_table(neoepitopes=annotated_neoepitopes, mhc='mhcI')
+        annotations_table.to_csv(os.path.join("/mnt/storage2/users/ahnelll1/master_thesis/output_training_data/all", f"NEPdb_neofox_annotations_updated_{name}.tsv"), sep="\t", index=False)
 
 if __name__ == "__main__":
     main()

@@ -8,6 +8,7 @@ import seaborn as sns
 from helpers.get_data import get_feature_data, get_relevant_features_neofox
 import sys
 from optparse import OptionParser
+from matplotlib import rc, rcParams
 
 output_dir = "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/analysis/images/features/neofox"
 
@@ -62,6 +63,36 @@ def main(argv):
         plt.tight_layout()
         
         plt.savefig(os.path.join(output_dir, feature['name'] + '_plots_' + ('interval_' if options.use_interval and 'interval' in feature else '') + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
+        
+    rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 30})
+    rcParams['axes.unicode_minus'] = False
+    for i, feature in enumerate(relevant_features):
+        plt.figure(figsize=(12,8))
+        
+        # histogram 
+        feature_df = feature_data[feature['name']].dropna()
+        print(feature['name'])
+        print(min(feature_df))
+        print(max(feature_df))
+        if options.use_interval and 'interval' in feature:
+            feature_df_hist = feature_df[(feature['interval'][0] <= feature_df) & (feature_df <= feature['interval'][1])]
+        else:
+            feature_df_hist = feature_df
+        sns.histplot(feature_df_hist, kde=True, bins=50, color="#94B6D2")
+        for q, c in zip([0.25, 0.5, 0.75], ['#ff0000', '#ff7b7b', '#ffd5d5']):
+            if feature['quantile'] == 'upper':
+                q = 1-q
+            quant = np.quantile(feature_df, q)
+            plt.axvline(x = quant, color = c, label = str(q*100) + '% = ' + str(round(quant*100)/100), linewidth=4) 
+        if options.use_interval and 'interval' in feature:
+            plt.xlim(feature['interval'])
+        plt.ylabel("#neoepitopes")
+        plt.xlabel(feature['name'].replace("_", " "))
+        plt.legend()
+
+        plt.tight_layout()
+        
+        plt.savefig(os.path.join(output_dir, "histograms", feature['name'] + '_histogram_' + ('interval_' if options.use_interval and 'interval' in feature else '') + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
     
 if __name__ == "__main__":
     main(sys.argv)

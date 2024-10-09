@@ -7,6 +7,7 @@ import sys
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 from sklearn.inspection import permutation_importance
+from sklearn.model_selection import cross_val_score
 
 sys.path.append(sys.path[0] + '/../../analysis')
 from helpers.get_data import get_relevant_features_neofox
@@ -22,6 +23,13 @@ class RandomForestModel:
 
     def get_classifier(self):
         return self.classifier
+        
+    def perform_cross_validation(self):
+        clf = RandomForestClassifier(n_estimators=100, random_state=42, min_samples_leaf=20)
+        cv_scores = cross_val_score(clf, self.train_features, self.train_labels, cv=5)
+
+        print("Cross-validation scores:", cv_scores)
+        print("Mean cross-validation accuracy:", cv_scores.mean())
 
     def save_feature_importances(self):
         feature_list = [name for name in get_relevant_features_neofox() if not name.startswith("Priority_score")]
@@ -114,6 +122,7 @@ class RandomForestModel:
 
 if __name__ == '__main__':
     rf = RandomForestModel()
-    rf.save_feature_importances()
-    rf.calc_test_statistics()
-    rf.save_output()
+    rf.perform_cross_validation()
+    #rf.save_feature_importances()
+    #rf.calc_test_statistics()
+    #rf.save_output()

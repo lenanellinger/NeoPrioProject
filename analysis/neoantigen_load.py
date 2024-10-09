@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+from matplotlib import rc
+rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 25})
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 import numpy as np
@@ -24,16 +26,21 @@ def main(argv):
     relevant_features = get_relevant_features_neofox(True)
     feature_data = get_feature_data(prefilter, cohorts)
     
-    fig, axes = plt.subplots(1, 1, sharex=True, sharey=True, figsize=(12,8))
+    fig, axes = plt.subplots(1, 1, sharex=True, sharey=True, figsize=(16,8))
     
     # after prefilter
     sizes = []
     for i in range(np.nanmax(feature_data['sample_id'])):
         sizes.append((feature_data['sample_id'] == i).sum())
     sizes.sort()
-    sns.histplot(sizes, kde=True, binwidth=10, ax=axes)
-    axes.set_xlim([0, 500])
-    axes.set_title("Neoepitope load per patient after binding filter")
+    print("Number of patients with equal 0 neoepitopes:", len([s for s in sizes if s == 0]))
+    print("Number of patients with equal 1 neoepitopes:", len([s for s in sizes if s == 1]))
+    print("Number of patients with less or equal than 50 neoepitopes:", len([s for s in sizes if s <= 50]))
+    print("Number of patients with less or equal than 100 neoepitopes:", len([s for s in sizes if s <= 100]))
+    print("Number of patients with less or equal than 200 neoepitopes:", len([s for s in sizes if s <= 200]))
+    print("Number of patients in total:", len(sizes))
+    
+    sns.histplot([s for s in sizes if s <= 50], kde=True, binwidth=1, ax=axes, color="#94B6D2")
     axes.set_xlabel("#neoepitopes")
     axes.set_ylabel("#patients")
     
@@ -55,7 +62,7 @@ def main(argv):
     #axes[1].set_xlim([0, 500])
     
         
-    plt.savefig(os.path.join(output_dir, 'neoantigen_load_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
+    plt.savefig(os.path.join(output_dir, 'neoepitope_load_' + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), dpi=300)
     
 if __name__ == "__main__":
     main(sys.argv)

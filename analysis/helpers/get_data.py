@@ -67,6 +67,7 @@ def get_relevant_features_neofox(details=False):
         #},{
             'name': 'DAI', 
             'quantile': 'upper',
+            'interval': [-915, 3000],
             'cutoff': {
                 'use_percentage': False,
                 'good_distribution': True,
@@ -74,8 +75,7 @@ def get_relevant_features_neofox(details=False):
             }
         },{
             'name': 'dissimilarity_score', 
-            'quantile': 'upper',
-            'interval': [0, 0.001]
+            'quantile': 'upper'
         },{
             'name': 'IEDB_Immunogenicity', 
             'quantile': 'upper',
@@ -103,8 +103,7 @@ def get_relevant_features_neofox(details=False):
             }
         },{
             'name': 'recognition_potential', 
-            'quantile': 'upper',
-            'interval': [0, 0.54]
+            'quantile': 'upper'
         },{
             'name': 'Priority_score_imputed_fromDNA', 
             'quantile': 'upper',
@@ -150,7 +149,7 @@ def get_relevant_features_neofox(details=False):
         },{
             'name': 'imputedGeneExpression', 
             'quantile': 'upper',
-            'interval': [0, 100],
+            'interval': [0, 40],
             'cutoff': {
                 'use_percentage': True,
                 'good_distribution': True

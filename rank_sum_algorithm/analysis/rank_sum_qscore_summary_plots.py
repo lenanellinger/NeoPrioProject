@@ -1,8 +1,6 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import os
-import sys
 import seaborn as sns
 
 step_size = 25

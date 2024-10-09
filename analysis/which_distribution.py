@@ -23,6 +23,7 @@ def main(argv):
     
     feature_data = get_feature_data(prefilter, cohorts)[options.feature].dropna()
    
+    print((feature_data == 0).sum() / feature_data.size)
     
     # descriptive statistics
     print("mean:", feature_data.mean())
