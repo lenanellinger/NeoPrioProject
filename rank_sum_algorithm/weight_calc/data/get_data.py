@@ -2,7 +2,9 @@ import os
 import pandas as pd
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
 
+from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 
@@ -16,40 +18,65 @@ def get_feature_data_NEPdb():
     returns a DataFrame with neofox features
     """
 
-    features = pd.read_csv(os.path.join(directory_ml,  "NEPdb_neofox_annotations.tsv"), sep="\t", header=0)
+    features = pd.read_csv(os.path.join(directory_ml,  "NEPdb_filtered_neofox.tsv"), sep="\t", header=0)
             
     return features
 
+def plot_pca(name, x, y):
+    pca = PCA(n_components=2)
+    X = pca.fit_transform(x)
+    colors = ['#1F77B4', '#FF7F0E']
+    markers = ['o', 's']
+    for l, c, m in zip(np.unique(y), colors, markers):
+        plt.scatter(
+            X[y==l, 0],
+            X[y==l, 1],
+            c=c, label=l, marker=m
+        )
+    plt.title('Imbalanced dataset (2 PCA components)')
+    plt.legend(loc='upper right')
+    plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/data_pca_{name}.png")
+    plt.clf()
 
 def get_train_data():
     features_with_meta = get_feature_data_NEPdb()
+    features_with_meta = features_with_meta[features_with_meta['affinityMutated'] <= 500]
 
     labels = np.array(features_with_meta['response'])
 
     all_feature_names = get_relevant_features_neofox()
+    
+    print("Number of Positive samples:", len([i for i in labels if i == 'N']))
+    print("Number of Negative samples:", len([i for i in labels if i == 'P']))
 
-    features_with_meta = features_with_meta.loc[:, ['patientIdentifier'] + [name for name in all_feature_names if
-                                                                            not name.startswith("Priority_score")]]
+    features_with_meta = features_with_meta.loc[:, ['patientIdentifier'] + all_feature_names]
     for i, row in features_with_meta.iterrows():
         if features_with_meta.isnull().loc[i, 'Selfsimilarity_conserved_binder']:
             features_with_meta.loc[i, 'Selfsimilarity_conserved_binder'] = 0 if (features_with_meta.loc[i, 'DAI'] > 0) else 1
 
     features_with_meta_array = np.array(features_with_meta)
+    
+    train_features, test_features_tmp, train_labels, test_labels_tmp = train_test_split(features_with_meta_array, labels,
+                                                                                test_size=0.3, random_state=42, stratify=labels)
 
-    train_features, test_features, train_labels, test_labels = train_test_split(features_with_meta_array, labels,
-                                                                                test_size=0.2, random_state=42)
-
+    val_features, test_features, val_labels, test_labels = train_test_split(test_features_tmp, test_labels_tmp,
+                                                                                test_size=0.5, random_state=42, stratify=test_labels_tmp)
+                                                                                
     train_features = train_features[:, 1:]
     train_labels_int = [0 if label == 'N' else 1 for label in train_labels]
+    val_features = val_features[:, 1:]
+    val_labels_int = [0 if label == 'N' else 1 for label in val_labels]
     test_patients = test_features[:, 0]
     test_features = test_features[:, 1:]
     test_labels_int = [0 if label == 'N' else 1 for label in test_labels]
-
+    
     imputer = SimpleImputer(strategy='median')
     imputer.fit(train_features)
     train_features = imputer.transform(train_features)
+    val_features = imputer.transform(val_features)
     test_features = imputer.transform(test_features)
+    
+    plot_pca('dataset_train', train_features, train_labels)
+    plot_pca('dataset_test', test_features, test_labels)
 
-    # TODO class imbalance
-
-    return train_features, train_labels, train_labels_int, test_features, test_labels, test_labels_int, test_patients
+    return train_features, train_labels_int, val_features, val_labels_int, test_features, test_labels_int, test_patients

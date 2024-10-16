@@ -7,6 +7,6 @@ Runs the rank sum algorithm for the NEPdb data
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output_training_data"
 
-neofox_filename = os.path.join(directory, "NEPdb_neofox_annotations.tsv")
+neofox_filename = os.path.join(directory, "NEPdb_filtered_neofox.tsv")
 
-rank_sum_qscore_training_data(neofox_filename, 25)
+rank_sum_qscore_training_data(neofox_filename, 1)

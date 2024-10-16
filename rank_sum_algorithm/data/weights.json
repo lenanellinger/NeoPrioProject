@@ -1,13 +1,13 @@
 {
-    "DAI": 0.04979031922533781,
-    "dissimilarity_score": 8.181818181818182e-11,
-    "IEDB_Immunogenicity": 0.043511735624047726,
-    "MixMHCpred_score": 0.15347954376410422,
-    "Selfsimilarity_conserved_binder": 0.13526988228731077,
-    "recognition_potential": 8.181818181818182e-11,
-    "hex_alignment_score": 8.181818181818182e-11,
-    "PRIME_score": 0.18881919827860968,
-    "gene_expression": 0.27811344548164163,
-    "Priority_score_fromDNA": 0.09090909090909088,
-    "Priority_score_fromRNA": 0.09090909090909088
+    "DAI": 1.2383145639890456e-11,
+    "dissimilarity_score": 1.2383145639890456e-11,
+    "IEDB_Immunogenicity": 0.12955602847238074,
+    "MixMHCpred_score": 0.13919946249303222,
+    "Selfsimilarity_conserved_binder": 1.2383145639890456e-11,
+    "recognition_potential": 1.2383145639890456e-11,
+    "Priority_score_fromDNA": 0.3646648425065852,
+    "Priority_score_fromRNA": 1.2383145639890456e-11,
+    "hex_alignment_score": 1.2383145639890456e-11,
+    "PRIME_score": 0.04408826992990982,
+    "gene_expression": 0.32249139652379305
 }
