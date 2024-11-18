@@ -19,4 +19,4 @@ for cohort in os.listdir(directory):
             if not os.path.isfile(neofox_filename):
                 continue
             
-            rank_sum_qscore(pvacseq_filename, neofox_filename, 1)
+            rank_sum_qscore(pvacseq_filename, neofox_filename, 25)

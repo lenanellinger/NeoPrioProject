@@ -8,6 +8,9 @@ from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 
+from imblearn.under_sampling import RandomUnderSampler, TomekLinks
+from imblearn.over_sampling import RandomOverSampler, SMOTE
+
 sys.path.append(sys.path[0] + '/../../../analysis')
 from helpers.get_data import get_relevant_features_neofox
 
@@ -46,8 +49,8 @@ def get_train_data():
 
     all_feature_names = get_relevant_features_neofox()
     
-    print("Number of Positive samples:", len([i for i in labels if i == 'N']))
-    print("Number of Negative samples:", len([i for i in labels if i == 'P']))
+    print("Number of Negative samples:", len([i for i in labels if i == 'N']))
+    print("Number of Positive samples:", len([i for i in labels if i == 'P']))
 
     features_with_meta = features_with_meta.loc[:, ['patientIdentifier'] + all_feature_names]
     for i, row in features_with_meta.iterrows():
@@ -76,7 +79,14 @@ def get_train_data():
     val_features = imputer.transform(val_features)
     test_features = imputer.transform(test_features)
     
+    rus = SMOTE(sampling_strategy=0.5, random_state=42)
+    train_features_res, train_labels_res = rus.fit_resample(train_features, train_labels)
+    train_labels_int_res = [0 if label == 'N' else 1 for label in train_labels_res]
+    
+    print("After resample: Number of Negative samples:", len([i for i in train_labels_res if i == 'N']))
+    print("After resample: Number of Positive samples:", len([i for i in train_labels_res if i == 'P']))
+    
     plot_pca('dataset_train', train_features, train_labels)
     plot_pca('dataset_test', test_features, test_labels)
 
-    return train_features, train_labels_int, val_features, val_labels_int, test_features, test_labels_int, test_patients
+    return train_features, train_labels_int, train_features_res, train_labels_int_res, val_features, val_labels_int, test_features, test_labels_int, test_patients

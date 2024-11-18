@@ -42,7 +42,7 @@
         ]
     },
     "MixMHCpred_score": {
-        "direction": "lower",
+        "direction": "upper",
         "quantiles": [
             -1.2245,
             -0.931872,
@@ -126,7 +126,7 @@
         ]
     },
     "PRIME_score": {
-        "direction": "lower",
+        "direction": "upper",
         "quantiles": [
             0.022833000000000003,
             0.039442000000000005,

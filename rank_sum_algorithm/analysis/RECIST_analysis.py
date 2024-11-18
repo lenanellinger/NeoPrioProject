@@ -5,11 +5,15 @@ import numpy as np
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib import rc, rcParams
 from scipy.stats import wilcoxon
 
 sys.path.append(sys.path[0] + '/../..')
 from analysis.helpers.get_data import get_relevant_features_neofox
 from rank_sum_algorithm.weight_calc.xgboost_classifier_model import XGBoostClassifierModel
+
+rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 20})
+rcParams['axes.unicode_minus'] = False
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output/AxelMelanomaPhD"
 
@@ -25,7 +29,7 @@ response_map = {
 output_df = []
 
 topx = 10
-step_size = 25
+step_size = 10
 
 rf = XGBoostClassifierModel()
 
@@ -68,23 +72,13 @@ for method in os.listdir(directory):
                           metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].values[0]])
 
 
-# QScore as predictor for RECIST
 output_df = pd.DataFrame(output_df, columns=['TUMOR', 'NORMAL', f'QSCORE_MEDIAN_{topx}', 'LOAD', f'XGB_PRED_MEDIAN_{topx}', 'RESPONSE'])
 output_df["RESPONSE_BINARY"] = output_df["RESPONSE"].apply(lambda x: response_map[x])
 
 recist_score = [response_map[r] for r in output_df['RESPONSE']]
 
-best_f1 = 0
-best_threshold = 0
-for tr in np.arange(0, 1, 0.1):
-    pred_labels = (output_df[f'QSCORE_MEDIAN_{topx}'] > tr).astype(int)
-    f1 = f1_score(recist_score, pred_labels)
-    if f1 > best_f1:
-        best_f1 = f1
-        best_threshold = tr
-print("QScore Best Threshold", best_threshold)
-
-pred_labels = (output_df[f'QSCORE_MEDIAN_{topx}'] > best_threshold).astype(int)
+# QScore as predictor for RECIST
+pred_labels = (output_df[f'QSCORE_MEDIAN_{topx}'] > 0.54).astype(int)
 
 accuracy = accuracy_score(recist_score, pred_labels)
 precision = precision_score(recist_score, pred_labels)
@@ -101,7 +95,13 @@ print("QScore AUC:", auc)
 stat, p_value = wilcoxon(output_df[f'QSCORE_MEDIAN_{topx}'], output_df['RESPONSE_BINARY'])
 print(f"QScore Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
 
-sns.boxplot(data=output_df, x="RESPONSE_BINARY", y=f'QSCORE_MEDIAN_{topx}')
+plt.figure(figsize=(4,6))
+gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y=f'QSCORE_MEDIAN_{topx}', color='#94B6D2')
+gfg.set(xlabel='RECIST score classification', ylabel=f'top {topx} median quality score')
+labels = gfg.get_xticklabels()
+plt.ylim([0, 1])
+gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
+plt.tight_layout()
 plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/responder_binary_top{topx}_qscore_{step_size}_boxplot.png")
 plt.clf()
 
@@ -133,23 +133,18 @@ print("Load AUC:", auc)
 stat, p_value = wilcoxon(output_df['LOAD'], output_df['RESPONSE_BINARY'])
 print(f"Load Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
 
-sns.boxplot(data=output_df, x="RESPONSE_BINARY", y="LOAD")
+plt.figure(figsize=(4,6))
+gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y="LOAD", color='#94B6D2')
 plt.ylim([0, 100])
+gfg.set(xlabel='RECIST score classification', ylabel=f'neoepitope load')
+labels = gfg.get_xticklabels()
+gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
+plt.tight_layout()
 plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/load_responder_binary_{step_size}_boxplot.png")
 plt.clf()
 
 # XGBoost prediction as predictor for RECIST
-best_f1 = 0
-best_threshold = 0
-for tr in range(1, 50):
-    pred_labels = (output_df[f'XGB_PRED_MEDIAN_{topx}'] > tr).astype(int)
-    f1 = f1_score(recist_score, pred_labels)
-    if f1 > best_f1:
-        best_f1 = f1
-        best_threshold = tr
-print("XGB Best Threshold", best_threshold)
-
-pred_labels = (output_df[f'XGB_PRED_MEDIAN_{topx}'] > best_threshold).astype(int)
+pred_labels = (output_df[f'XGB_PRED_MEDIAN_{topx}'] > 0.6).astype(int)
 
 accuracy = accuracy_score(recist_score, pred_labels)
 precision = precision_score(recist_score, pred_labels)
@@ -166,5 +161,11 @@ print("XGB AUC:", auc)
 stat, p_value = wilcoxon(output_df[f'XGB_PRED_MEDIAN_{topx}'], output_df['RESPONSE_BINARY'])
 print(f"XGB Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
 
-sns.boxplot(data=output_df, x="RESPONSE_BINARY", y=f'XGB_PRED_MEDIAN_{topx}')
+plt.figure(figsize=(4,6))
+gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y=f'XGB_PRED_MEDIAN_{topx}', color='#94B6D2')
+gfg.set(xlabel='RECIST score classification', ylabel=f'top {topx} median XGBoost pred. prob.')
+labels = gfg.get_xticklabels()
+gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
+plt.tight_layout()
 plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/xgb_responder_binary_top{topx}_qscore_{step_size}_boxplot")
+plt.close()

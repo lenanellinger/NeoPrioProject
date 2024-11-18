@@ -9,9 +9,9 @@ import numpy as np
 
 from sklearn.metrics import mean_squared_error
 
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, spearmanr
 
-step_size = 1
+step_size = 10
 
 data = get_feature_data()
 f = open(f'/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_{step_size}.json')
@@ -26,8 +26,8 @@ for f in ['MixMHCpred', 'PRIME']:
     mask = ~np.isnan(quants) & ~np.isnan(neofox_ranks_normalized)
 
     # Correlation
-    pearson_corr = pearsonr(quants[mask], neofox_ranks_normalized[mask])
-    print("Pearson Correlation", pearson_corr)
+    spearman_corr = spearmanr(quants[mask], neofox_ranks_normalized[mask])
+    print("Spearman Correlation", spearman_corr)
 
     # Mean Square Error
     mse = mean_squared_error(quants[mask], neofox_ranks_normalized[mask])

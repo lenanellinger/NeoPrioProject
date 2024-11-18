@@ -7,14 +7,14 @@ import sys
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error
 
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, spearmanr
 
 sys.path.append(sys.path[0] + '/../..')
 from analysis.helpers.get_data import get_relevant_features_neofox
 from rank_sum_algorithm.weight_calc.xgboost_classifier_model import XGBoostClassifierModel
 
 rf = XGBoostClassifierModel()
-step_size = 25
+step_size = 10
 
 directory = "/mnt/storage2/users/ahnelll1/master_thesis/output"
 features_qscore = None
@@ -55,8 +55,8 @@ features = imputer.transform(features)
 pred_proba = rf.xgb_model.predict_proba(features)[:, 1]
 
 # Correlation
-pearson_corr = pearsonr(qscores, pred_proba)
-print("Pearson Correlation", pearson_corr)
+pearson_corr = spearmanr(qscores, pred_proba)
+print("Spearman Correlation", pearson_corr)
 
 # Mean Square Error
 mse = mean_squared_error(qscores, pred_proba)
