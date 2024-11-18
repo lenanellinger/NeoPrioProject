@@ -44,7 +44,7 @@ plt.plot(np.arange(0, 1, 0.01).tolist(), f1_scores)
 plt.xlabel('Threshold')
 plt.ylabel('F1 Score')
 plt.title('Rank Sum QScore on NEPdb dataset Classification Threshold')
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/F1_RS_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/F1_RS_{step_size}.png")
 plt.close()
 
 print("Best Threshold:", best_threshold)
@@ -80,7 +80,7 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=[0, 1], yticklabe
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.title('Confusion Matrix for Rank Sum Quality Score Classifier')
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/CM_RS_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/CM_RS_{step_size}.png")
 plt.close()
 
 # rank sum qscore vs prediction 
@@ -99,7 +99,7 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.legend()
 plt.tight_layout()
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/ROC_NEPdb_RS_{step_size}.png", dpi=300)
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/ROC_NEPdb_RS_{step_size}.png", dpi=300)
 plt.close()
 
 # calibration curve
@@ -112,7 +112,7 @@ plt.plot([0, 1], [0, 1], linestyle='--', label='Perfectly Calibrated')
 plt.xlabel('Predicted Probability')
 plt.ylabel('True Probability')
 plt.legend(loc='best')
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/CALIBR_NEPdb_RS_{step_size}.png", dpi=300)
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/CALIBR_NEPdb_RS_{step_size}.png", dpi=300)
 plt.close()
 
 # Precision Recall Curve
@@ -129,7 +129,7 @@ plt.xlabel('Recall')
 plt.ylabel('Precision')
 plt.title('Precision-Recall Curve')
 plt.legend()
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/PR_NEPdb_RS_{step_size}.png", dpi=300)
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/PR_NEPdb_RS_{step_size}.png", dpi=300)
 plt.close()
 
 # correlation
@@ -144,7 +144,7 @@ plt.plot([min(comparison_df["qscore"]), max(comparison_df["qscore"])], [min(comp
 plt.xlabel("Rank Sum Quality Score")
 plt.ylabel("XGBoost Prediction Probability")
 plt.title(f"Scatter Plot (Spearman r = {correlation.statistic:.2f})")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/qscore_xgb_NEPdb_scatter_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_NEPdb_scatter_{step_size}.png")
 
 # Bland-Altman Plot
 mean_pred = (comparison_df["qscore"] + comparison_df["pred_proba"]) / 2
@@ -160,6 +160,6 @@ plt.axhline(mean_diff - 1.96 * std_diff, color='blue', linestyle='--')
 plt.xlabel("Mean of Predictions")
 plt.ylabel("Difference between Predictions")
 plt.title("Bland-Altman Plot")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/qscore_xgb_NEPdb_bland_altman_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_NEPdb_bland_altman_{step_size}.png")
 
 

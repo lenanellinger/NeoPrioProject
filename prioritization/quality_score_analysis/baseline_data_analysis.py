@@ -9,8 +9,8 @@ from sklearn.metrics import mean_squared_error
 
 from scipy.stats import pearsonr, spearmanr
 
-sys.path.append(sys.path[0] + '/../..')
-from analysis.helpers.get_data import get_relevant_features_neofox
+sys.path.append(sys.path[0] + '/..')
+from helpers.get_data import get_relevant_features_neofox
 from rank_sum_algorithm.weight_calc.xgboost_classifier_model import XGBoostClassifierModel
 
 rf = XGBoostClassifierModel()
@@ -69,7 +69,7 @@ plt.plot([min(qscores), max(qscores)], [min(qscores), max(qscores)], color='red'
 plt.xlabel("Rank Sum Quality Score")
 plt.ylabel("XGBoost Prediction Probability")
 plt.title(f"Scatter Plot (Pearson r = {pearson_corr.statistic:.2f})")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/qscore_xgb_scatter_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_scatter_{step_size}.png")
 
 # Bland-Altman Plot
 mean_pred = (qscores + pred_proba) / 2
@@ -85,4 +85,4 @@ plt.axhline(mean_diff - 1.96 * std_diff, color='blue', linestyle='--')
 plt.xlabel("Mean of Predictions")
 plt.ylabel("Difference between Predictions")
 plt.title("Bland-Altman Plot")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/qscore_xgb_bland_altman_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_bland_altman_{step_size}.png")

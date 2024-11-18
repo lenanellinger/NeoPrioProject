@@ -9,7 +9,7 @@ from matplotlib import rc, rcParams
 from scipy.stats import wilcoxon
 
 sys.path.append(sys.path[0] + '/../..')
-from analysis.helpers.get_data import get_relevant_features_neofox
+from helpers.get_data import get_relevant_features_neofox
 from rank_sum_algorithm.weight_calc.xgboost_classifier_model import XGBoostClassifierModel
 
 rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 20})
