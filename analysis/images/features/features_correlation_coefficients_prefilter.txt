@@ -1,49 +1,42 @@
 AxelMelanomaPhD
-	DAI Priority_score_imputed_fromRNA pearson correlation: 0.40709805159802337
-	MixMHCpred_score PRIME_score pearson correlation: 0.800096904522499
-	MixMHCpred_score PRIME_score kendall correlation: 0.6203643106233737
-	MixMHCpred_score PRIME_score spearman correlation: 0.8156407018398166
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8646809094561799
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.6538178568181998
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.8295754844507911
-	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6014009024350955
-	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7564698220552898
+	DAI Priority_score_imputed_fromRNA pearson correlation: 0.4098827720961614
+	MixMHCpred_score PRIME_score pearson correlation: 0.801368456471801
+	MixMHCpred_score PRIME_score kendall correlation: 0.6242989974458101
+	MixMHCpred_score PRIME_score spearman correlation: 0.8193293020177097
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8591383012363984
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.6514713675677106
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.8276761702515653
+	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6024974019503259
+	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7583901879327841
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.4313141454685739
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5742860613107292
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7614887953396976
 	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4926752268990128
-	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.48292477938728107
-	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6748943667162074
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.4539133145493419
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6408494416206527
 SomaticAndTreatment
-	DAI Priority_score_imputed_fromRNA pearson correlation: 0.4422600646753306
-	DAI Priority_score_imputed_fromRNA spearman correlation: 0.446583178797467
-	MixMHCpred_score PRIME_score pearson correlation: 0.8005178936467418
-	MixMHCpred_score PRIME_score kendall correlation: 0.616500112287888
-	MixMHCpred_score PRIME_score spearman correlation: 0.8116433100612481
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8099336363902252
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.5878075606372403
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.7785220165932597
-	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6387189826121672
-	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7927568007346063
+	DAI Priority_score_imputed_fromRNA pearson correlation: 0.43507151094691
+	DAI Priority_score_imputed_fromRNA spearman correlation: 0.41530493085721965
+	MixMHCpred_score PRIME_score pearson correlation: 0.8002776863453239
+	MixMHCpred_score PRIME_score kendall correlation: 0.6163230972832109
+	MixMHCpred_score PRIME_score spearman correlation: 0.8118837199902338
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.8068630248047389
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.5806351103541056
+	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.7709049803592997
+	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6368018821620698
+	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7914355466791864
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.42171979089682793
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5589611825828451
 	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7498625343523133
 	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4520663298526
-	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.4637019958814391
-	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6520551467737675
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.42917825643572216
+	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6096100124300706
 merged
-	DAI Priority_score_imputed_fromRNA pearson correlation: 0.4109474779697623
-	MixMHCpred_score PRIME_score pearson correlation: 0.8001865254716809
-	MixMHCpred_score PRIME_score kendall correlation: 0.6199807483099876
-	MixMHCpred_score PRIME_score spearman correlation: 0.8152770522618003
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA pearson correlation: 0.858739790841112
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA kendall correlation: 0.6489600052630689
-	Priority_score_imputed_fromDNA Priority_score_imputed_fromRNA spearman correlation: 0.8260055405636572
-	Priority_score_imputed_fromDNA imputedGeneExpression kendall correlation: 0.6063656012142411
-	Priority_score_imputed_fromDNA imputedGeneExpression spearman correlation: 0.7613990597526117
-	NetMHC MT IC50 Score NetMHCpan MT IC50 Score pearson correlation: 0.43010743594364853
-	NetMHC MT IC50 Score NetMHCpan MT IC50 Score kendall correlation: 0.5723301482932711
-	NetMHC MT IC50 Score NetMHCpan MT IC50 Score spearman correlation: 0.7600421049106916
-	NetMHC MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.4873552501795325
-	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score kendall correlation: 0.48023103204386713
-	NetMHCpan MT IC50 Score MHCflurry MT IC50 Score spearman correlation: 0.6717905791146594
+	MixMHCpred_score vs PRIME_score Spearman Correlation (at least moderate): 0.8185477870752671, p-value 0.0
+	MixMHCpred_score vs MHCflurry MT IC50 Score Spearman Correlation (at least moderate): -0.4754646445814945, p-value 0.0
+	Priority_score_imputed_fromDNA vs Priority_score_imputed_fromRNA Spearman Correlation (at least moderate): 0.8235907215274788, p-value 0.0
+	Priority_score_imputed_fromDNA vs imputedGeneExpression Spearman Correlation (at least moderate): 0.7627097878627188, p-value 0.0
+	PRIME_score vs MHCflurry MT IC50 Score Spearman Correlation (at least moderate): -0.4573353365428529, p-value 0.0
+	NetMHC MT IC50 Score vs NetMHCpan MT IC50 Score Spearman Correlation (at least moderate): 0.7600421049106916, p-value 0.0
+	NetMHC MT IC50 Score vs MHCflurry MT IC50 Score Spearman Correlation (at least moderate): 0.4873552501795325, p-value 0.0
+	NetMHCpan MT IC50 Score vs MHCflurry MT IC50 Score Spearman Correlation (at least moderate): 0.6367981065397883, p-value 0.0

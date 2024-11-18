@@ -67,19 +67,17 @@ def main(argv):
     rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 30})
     rcParams['axes.unicode_minus'] = False
     for i, feature in enumerate(relevant_features):
+        plt.clf()
         plt.figure(figsize=(12,8))
         
         # histogram 
         feature_df = feature_data[feature['name']].dropna()
-        print(feature['name'])
-        print(min(feature_df))
-        print(max(feature_df))
         if options.use_interval and 'interval' in feature:
             feature_df_hist = feature_df[(feature['interval'][0] <= feature_df) & (feature_df <= feature['interval'][1])]
         else:
             feature_df_hist = feature_df
         sns.histplot(feature_df_hist, kde=True, bins=50, color="#94B6D2")
-        for q, c in zip([0.25, 0.5, 0.75], ['#ff0000', '#ff7b7b', '#ffd5d5']):
+        for q, c in zip([0.25, 0.5, 0.75], ['#b16639', '#dd8047', '#e4996c']):
             if feature['quantile'] == 'upper':
                 q = 1-q
             quant = np.quantile(feature_df, q)
@@ -87,12 +85,12 @@ def main(argv):
         if options.use_interval and 'interval' in feature:
             plt.xlim(feature['interval'])
         plt.ylabel("#neoepitopes")
-        plt.xlabel(feature['name'].replace("_", " "))
+        plt.xlabel(None)
         plt.legend()
 
         plt.tight_layout()
         
         plt.savefig(os.path.join(output_dir, "histograms", feature['name'] + '_histogram_' + ('interval_' if options.use_interval and 'interval' in feature else '') + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
-    
+        plt.close()
 if __name__ == "__main__":
     main(sys.argv)

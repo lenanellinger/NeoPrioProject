@@ -85,7 +85,7 @@ def get_relevant_features_neofox(details=False):
             }
         },{
             'name': 'MixMHCpred_score', 
-            'quantile': 'lower',
+            'quantile': 'upper',
             'cutoff': {
                 'use_percentage': True,
                 'good_distribution': True
@@ -134,7 +134,7 @@ def get_relevant_features_neofox(details=False):
             }
         },{
             'name': 'PRIME_score', 
-            'quantile': 'lower',
+            'quantile': 'upper',
             'cutoff': {
                 'use_percentage': True,
                 'good_distribution': True
