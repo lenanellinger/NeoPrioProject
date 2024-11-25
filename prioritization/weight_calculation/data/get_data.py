@@ -11,7 +11,7 @@ from sklearn.impute import SimpleImputer
 from imblearn.under_sampling import RandomUnderSampler, TomekLinks
 from imblearn.over_sampling import RandomOverSampler, SMOTE
 
-sys.path.append(sys.path[0] + '/../../../analysis')
+sys.path.append(sys.path[0] + '/../../../feature_analysis')
 from helpers.get_data import get_relevant_features_neofox
 
 directory_ml = "/mnt/storage2/users/ahnelll1/master_thesis/output_training_data"
@@ -38,7 +38,7 @@ def plot_pca(name, x, y):
         )
     plt.title('Imbalanced dataset (2 PCA components)')
     plt.legend(loc='upper right')
-    plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/data_pca_{name}.png")
+    plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/data_pca_{name}.png")
     plt.clf()
 
 def get_train_data():

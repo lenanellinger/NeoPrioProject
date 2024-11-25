@@ -14,7 +14,7 @@ from scipy.stats import pearsonr, spearmanr
 step_size = 10
 
 data = get_feature_data()
-f = open(f'/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_{step_size}.json')
+f = open(f'/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/data/quantiles_{step_size}.json')
 features = json.load(f)
 f.close()
 

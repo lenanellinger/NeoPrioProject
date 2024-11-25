@@ -14,10 +14,9 @@ from xgboost import XGBClassifier
 from imblearn.under_sampling import RandomUnderSampler, TomekLinks
 from imblearn.over_sampling import RandomOverSampler, SMOTE
 
-sys.path.append(sys.path[0] + '/../../analysis')
+sys.path.append(sys.path[0] + '/../../..')
 from helpers.get_data import get_relevant_features_neofox
-sys.path.append(sys.path[0] + '/../../rank_sum_algorithm')
-from weight_calc.data.get_data import get_train_data
+from data.get_data import get_train_data
 
 rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 20})
 rcParams['axes.unicode_minus'] = False
@@ -113,7 +112,7 @@ class XGBoostClassifierModel:
         plt.ylabel('True Positive Rate')
         plt.title('ROC Curve for XGBoost (train set)')
         plt.legend()
-        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/xgb_ROC_train.png")
+        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/xgb_ROC_train.png")
         
         # precision recall curve
         precision, recall, thresholds = precision_recall_curve(self.train_labels_int, pred_proba)
@@ -125,7 +124,7 @@ class XGBoostClassifierModel:
         plt.ylabel("Score")
         plt.title("Precision-Recall Trade-Off")
         plt.legend()
-        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/xgb_precision_recall_train.png", dpi=300)
+        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/xgb_precision_recall_train.png", dpi=300)
         
         # best F1 score
         best_f1 = 0
@@ -186,7 +185,7 @@ class XGBoostClassifierModel:
         for key in weights:
             weights[key] = weights[key] / total
         
-        with open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/weights.json', 'w') as f:
+        with open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/data/weights.json', 'w') as f:
             json.dump(weights, f, ensure_ascii=False, indent=4)
             
         # weights horizontal bar chart
@@ -202,7 +201,7 @@ class XGBoostClassifierModel:
                 plt.bar_label(p, label_type='center', fmt='%.2f', rotation=90)                
             left += w
         plt.gca().axis('off')
-        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/xgb_feature_importances_weights_prop_test.png", dpi=300)
+        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/xgb_feature_importances_weights_prop_test.png", dpi=300)
         plt.close()
         
         sorted_importances_idx = result.importances_mean.argsort()
@@ -217,7 +216,7 @@ class XGBoostClassifierModel:
         ax.set_xlabel("Decrease in F1 score")
         ax.figure.tight_layout()
 
-        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/xgb_feature_importances_f1_scoring_test.png", dpi=300)
+        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/xgb_feature_importances_f1_scoring_test.png", dpi=300)
         plt.close()
         
 
@@ -261,7 +260,7 @@ class XGBoostClassifierModel:
         plt.ylabel('True Positive Rate')
         plt.legend()
         plt.tight_layout()
-        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/xgb_ROC.png", dpi=300)
+        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/xgb_ROC.png", dpi=300)
         plt.close()
         
         cm = confusion_matrix(self.test_labels_int, pred_labels_test, labels=[0, 1])
@@ -270,7 +269,7 @@ class XGBoostClassifierModel:
         sns.heatmap(cm_df, annot=True, fmt='d', cmap=sns.light_palette("#7BA79D", as_cmap=True))
         plt.xlabel('Predicted Label')
         plt.ylabel('True Label')
-        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/xgb_cm_test.png", dpi=300)
+        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/xgb_cm_test.png", dpi=300)
         plt.close()
 
         cm = confusion_matrix(self.train_labels_int, pred_labels_train, labels=[0, 1])
@@ -279,7 +278,7 @@ class XGBoostClassifierModel:
         plt.xlabel('Predicted Label')
         plt.ylabel('True Label')
         plt.title('Confusion Matrix for XGBoost Classifier (train set)')
-        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/xgb_cm_train.png")
+        plt.savefig("/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/xgb_cm_train.png")
         plt.close()
 
     def save_output(self):
@@ -290,9 +289,9 @@ class XGBoostClassifierModel:
 
 if __name__ == '__main__':
     rf = XGBoostClassifierModel()
-    #rf.perform_parameter_grid_search()
-    #rf.perform_over_under_sampling_model_selection()
-    #rf.get_classification_threshold()
-    #rf.calc_test_statistics()
-    #rf.save_feature_importances()
+    rf.perform_parameter_grid_search()
+    rf.perform_over_under_sampling_model_selection()
+    rf.get_classification_threshold()
+    rf.calc_test_statistics()
+    rf.save_feature_importances()
     rf.save_output()

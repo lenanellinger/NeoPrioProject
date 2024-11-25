@@ -1,12 +1,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
+from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 from sklearn.inspection import permutation_importance
 from sklearn import linear_model
 
-from analysis.helpers.get_data import get_relevant_features_neofox
-from data.get_data import get_train_data
+from helpers.get_data import get_relevant_features_neofox
+from data import get_train_data
 
 class LassoModel:
     def __init__(self):
@@ -36,7 +36,7 @@ class LassoModel:
         ax.figure.tight_layout()
 
         plt.savefig(
-            "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/lasso_feature_importances_test.png")
+            "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/lasso_feature_importances_test.png")
 
 
     def calc_test_statistics(self):
@@ -68,7 +68,7 @@ class LassoModel:
         plt.title('ROC Curve for LASSO')
         plt.legend()
         plt.savefig(
-            "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/weight_calc/images/lasso_ROC.png")
+            "/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/weight_calculation/images/lasso_ROC.png")
 
 if __name__ == '__main__':
     cls = LassoModel()

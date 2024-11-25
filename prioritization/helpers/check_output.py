@@ -3,7 +3,7 @@ import pandas as pd
 import shutil
 
 """
-Checks if for all commands in commands_quality_filtered.sh a valid output was generated or if an error occured.
+Checks if for all commands in commands_quality_filtered.sh a valid output was generated or if an error occurred.
 Commands which are not associated with a valid output are written in commands_missing.sh and can be retried.
 """
 

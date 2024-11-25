@@ -7,11 +7,11 @@ import sys
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error
 
-from scipy.stats import pearsonr, spearmanr
+from scipy.stats import spearmanr
 
 sys.path.append(sys.path[0] + '/..')
 from helpers.get_data import get_relevant_features_neofox
-from rank_sum_algorithm.weight_calc.xgboost_classifier_model import XGBoostClassifierModel
+from prioritization.weight_calculation.xgboost_classifier_model import XGBoostClassifierModel
 
 rf = XGBoostClassifierModel()
 step_size = 10

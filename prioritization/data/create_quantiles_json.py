@@ -4,7 +4,7 @@ import sys
 from optparse import OptionParser
 
 sys.path.append(sys.path[0] + '/../..')
-from analysis.helpers.get_data import get_relevant_features_neofox, get_feature_data
+from helpers.get_data import get_relevant_features_neofox, get_feature_data
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
         for q in range(step, 100, step):
             quant = np.nanquantile(feature_data[feature['name']], q/100)
             result[feature['name']]['quantiles'].append(quant)
-    with open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/data/quantiles_' + options.step + '.json', 'w') as f:
+    with open('/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/data/quantiles_' + options.step + '.json', 'w') as f:
         json.dump(result, f, ensure_ascii=False, indent=4)
 
     

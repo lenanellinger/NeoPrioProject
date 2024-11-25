@@ -10,7 +10,7 @@ from scipy.stats import wilcoxon
 
 sys.path.append(sys.path[0] + '/../..')
 from helpers.get_data import get_relevant_features_neofox
-from rank_sum_algorithm.weight_calc.xgboost_classifier_model import XGBoostClassifierModel
+from prioritization.weight_calculation.xgboost_classifier_model import XGBoostClassifierModel
 
 rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 20})
 rcParams['axes.unicode_minus'] = False
@@ -102,7 +102,7 @@ labels = gfg.get_xticklabels()
 plt.ylim([0, 1])
 gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
 plt.tight_layout()
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/responder_binary_top{topx}_qscore_{step_size}_boxplot.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/responder_binary_top{topx}_qscore_{step_size}_boxplot.png")
 plt.clf()
 
 # Antigen load as predictor for RECIST
@@ -140,7 +140,7 @@ gfg.set(xlabel='RECIST score classification', ylabel=f'neoepitope load')
 labels = gfg.get_xticklabels()
 gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
 plt.tight_layout()
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/load_responder_binary_{step_size}_boxplot.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/load_responder_binary_{step_size}_boxplot.png")
 plt.clf()
 
 # XGBoost prediction as predictor for RECIST
@@ -167,5 +167,5 @@ gfg.set(xlabel='RECIST score classification', ylabel=f'top {topx} median XGBoost
 labels = gfg.get_xticklabels()
 gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
 plt.tight_layout()
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/rank_sum_algorithm/analysis/images/xgb_responder_binary_top{topx}_qscore_{step_size}_boxplot")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/xgb_responder_binary_top{topx}_qscore_{step_size}_boxplot")
 plt.close()
