@@ -11,7 +11,7 @@ import logging
 def main(argv):
     if len(argv) == 1:
         argv.append("--help")
-    usage = "usage: python run_pvacseq.py -i vcf_file --strelka --regions intersection_all_srr_targets.bed --pairings pairings.tsv --data_dir /mnt/storage1/projects/research/AxelMelanomaPhD"
+    usage = "usage: python run_pvacseq.py -i vcf_file --strelka --data_dir /mnt/storage1/projects/research/AxelMelanomaPhD"
     desc = "Runs pVACseq on preprocessed data."
     parser = OptionParser(usage=usage, description=desc)
     parser.add_option("-i", "--input", action="store", dest="input", type="string", help="Input vcf file")
