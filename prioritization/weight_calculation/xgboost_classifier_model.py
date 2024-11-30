@@ -14,7 +14,7 @@ from xgboost import XGBClassifier
 from imblearn.under_sampling import RandomUnderSampler, TomekLinks
 from imblearn.over_sampling import RandomOverSampler, SMOTE
 
-sys.path.append(sys.path[0] + '/../../..')
+sys.path.append(sys.path[0] + '/../..')
 from helpers.get_data import get_relevant_features_neofox
 from data.get_data import get_train_data
 
