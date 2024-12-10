@@ -9,7 +9,7 @@ from sklearn.metrics import mean_squared_error
 
 from scipy.stats import spearmanr
 
-sys.path.append(sys.path[0] + '/..')
+sys.path.append(sys.path[0] + '/../..')
 from helpers.get_data import get_relevant_features_neofox
 from prioritization.weight_calculation.xgboost_classifier_model import XGBoostClassifierModel
 
@@ -64,12 +64,12 @@ print("Mean Square Error", mse)
 
 # Scatter plot
 plt.figure(figsize=(6, 6))
-plt.scatter(qscores, pred_proba, alpha=0.5)
-plt.plot([min(qscores), max(qscores)], [min(qscores), max(qscores)], color='red', linestyle='--')  # y=x line
-plt.xlabel("Rank Sum Quality Score")
+plt.scatter(qscores, pred_proba, alpha=0.5, s=5, marker='o', c='#94B6D2', linewidth=0)
+plt.plot([min(qscores), max(qscores)], [min(qscores), max(qscores)], color='#DD8047', linestyle='--')  # y=x line
+plt.xlabel("Immunogenicity Score")
 plt.ylabel("XGBoost Prediction Probability")
-plt.title(f"Scatter Plot (Pearson r = {pearson_corr.statistic:.2f})")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_scatter_{step_size}.png")
+plt.tight_layout()
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_scatter_{step_size}.png", dpi = 300)
 
 # Bland-Altman Plot
 mean_pred = (qscores + pred_proba) / 2

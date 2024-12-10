@@ -16,7 +16,7 @@ from imblearn.over_sampling import RandomOverSampler, SMOTE
 
 sys.path.append(sys.path[0] + '/../..')
 from helpers.get_data import get_relevant_features_neofox
-from data.get_data import get_train_data
+from prioritization.weight_calculation.data.get_data import get_train_data
 
 rc('font', **{'family': 'serif', 'serif': ['cmr10'], 'size': 20})
 rcParams['axes.unicode_minus'] = False
@@ -289,9 +289,9 @@ class XGBoostClassifierModel:
 
 if __name__ == '__main__':
     rf = XGBoostClassifierModel()
-    rf.perform_parameter_grid_search()
+    #rf.perform_parameter_grid_search()
     rf.perform_over_under_sampling_model_selection()
-    rf.get_classification_threshold()
+    #rf.get_classification_threshold()
     rf.calc_test_statistics()
-    rf.save_feature_importances()
-    rf.save_output()
+    #rf.save_feature_importances()
+    #rf.save_output()

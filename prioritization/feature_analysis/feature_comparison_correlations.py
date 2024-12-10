@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import itertools
+sys.path.append(sys.path[0] + '/../..')
 from helpers.get_data import get_feature_data, get_relevant_features
 import sys
 from optparse import OptionParser

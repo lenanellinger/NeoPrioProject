@@ -51,12 +51,12 @@ for method in os.listdir(directory):
         if metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].isnull().values.any():
             continue
         if not os.path.isfile(filename):
-            output_df.append([tumor, normal, 0, 0, 0,
+            output_df.append([tumor, normal, 0, 0, 0, 0,
                 metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].values[0]])
             continue
         weighted_rank_sum_out = pd.read_csv(filename, sep="\t", header=0)
         if weighted_rank_sum_out.shape[0] == 0:
-            output_df.append([tumor, normal, 0, 0, 0,
+            output_df.append([tumor, normal, 0, 0, 0, 0,
                 metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].values[0]])
             continue
         features = weighted_rank_sum_out.loc[:, get_relevant_features_neofox()]
@@ -67,12 +67,13 @@ for method in os.listdir(directory):
         pred_proba = rf.xgb_model.predict_proba(features)[:, 1]
         output_df.append([tumor, normal, 
                           sum_top_x(weighted_rank_sum_out, 'qscore', topx), 
-                          weighted_rank_sum_out.shape[0],
+                          weighted_rank_sum_out[weighted_rank_sum_out['qscore'] > 0.54].shape[0],
                           sum_top_x(pd.DataFrame(pred_proba, columns=['pred']), 'pred', topx),
+                          sum(1 for pred in pred_proba if pred > 0.6),
                           metadata[(metadata['TUMOR'] == tumor) & (metadata['NORMAL'] == normal)]['RESPONSE'].values[0]])
 
 
-output_df = pd.DataFrame(output_df, columns=['TUMOR', 'NORMAL', f'QSCORE_MEDIAN_{topx}', 'LOAD', f'XGB_PRED_MEDIAN_{topx}', 'RESPONSE'])
+output_df = pd.DataFrame(output_df, columns=['TUMOR', 'NORMAL', f'QSCORE_MEDIAN_{topx}', 'LOAD_QSCORE', f'XGB_PRED_MEDIAN_{topx}', 'LOAD_XGB', 'RESPONSE'])
 output_df["RESPONSE_BINARY"] = output_df["RESPONSE"].apply(lambda x: response_map[x])
 
 recist_score = [response_map[r] for r in output_df['RESPONSE']]
@@ -97,7 +98,7 @@ print(f"QScore Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
 
 plt.figure(figsize=(4,6))
 gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y=f'QSCORE_MEDIAN_{topx}', color='#94B6D2')
-gfg.set(xlabel='RECIST score classification', ylabel=f'top {topx} median quality score')
+gfg.set(xlabel='RECIST classification', ylabel=f'top {topx} median immunogenicity score')
 labels = gfg.get_xticklabels()
 plt.ylim([0, 1])
 gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
@@ -105,42 +106,51 @@ plt.tight_layout()
 plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/responder_binary_top{topx}_qscore_{step_size}_boxplot.png")
 plt.clf()
 
-# Antigen load as predictor for RECIST
+# Antigen load with QScore threshold as predictor for RECIST
 best_f1 = 0
 best_threshold = 0
 for tr in range(1, 50):
-    pred_labels = (output_df['LOAD'] > tr).astype(int)
+    pred_labels = (output_df['LOAD_QSCORE'] > tr).astype(int)
     f1 = f1_score(recist_score, pred_labels)
     if f1 > best_f1:
         best_f1 = f1
         best_threshold = tr
-print("Load Best Threshold", best_threshold)
+print("Load QScore Best Threshold", best_threshold)
 
-pred_labels = (output_df['LOAD'] > best_threshold).astype(int)
+pred_labels = (output_df['LOAD_QSCORE'] > best_threshold).astype(int)
 
 accuracy = accuracy_score(recist_score, pred_labels)
 precision = precision_score(recist_score, pred_labels)
 recall = recall_score(recist_score, pred_labels)
 f1 = f1_score(recist_score, pred_labels)
-auc = roc_auc_score(recist_score, output_df['LOAD'])
+auc = roc_auc_score(recist_score, output_df['LOAD_QSCORE'])
 
-print("Load Accuracy:", accuracy)
-print("Load Precision:", precision)
-print("Load Recall:", recall)
-print("Load F1-score:", f1)
-print("Load AUC:", auc)
+print("Load QScore Accuracy:", accuracy)
+print("Load QScore Precision:", precision)
+print("Load QScore Recall:", recall)
+print("Load QScore F1-score:", f1)
+print("Load QScore AUC:", auc)
 
-stat, p_value = wilcoxon(output_df['LOAD'], output_df['RESPONSE_BINARY'])
-print(f"Load Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
+stat, p_value = wilcoxon(output_df['LOAD_QSCORE'], output_df['RESPONSE_BINARY'])
+print(f"Load QScore Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
 
 plt.figure(figsize=(4,6))
-gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y="LOAD", color='#94B6D2')
+gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y="LOAD_QSCORE", color='#94B6D2')
 plt.ylim([0, 100])
-gfg.set(xlabel='RECIST score classification', ylabel=f'neoepitope load')
+gfg.set(xlabel='RECIST classification', ylabel=f'neoepitope load')
 labels = gfg.get_xticklabels()
 gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
 plt.tight_layout()
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/load_responder_binary_{step_size}_boxplot.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/load_qscore_responder_binary_{step_size}_boxplot.png")
+plt.clf()
+
+plt.figure(figsize=(6,4))
+sns.histplot(output_df[output_df['RESPONSE_BINARY'] == 0]['LOAD_QSCORE'], kde=True, bins=50, color="#94B6D2", binwidth=2, label="NR")
+sns.histplot(output_df[output_df['RESPONSE_BINARY'] == 1]['LOAD_QSCORE'], kde=True, bins=50, color="#A5AB81", binwidth=2, label="R")
+plt.xlim([0,100])
+plt.legend()
+plt.tight_layout()
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/load_qscore_responder_binary_{step_size}_hist.png")
 plt.clf()
 
 # XGBoost prediction as predictor for RECIST
@@ -163,9 +173,56 @@ print(f"XGB Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
 
 plt.figure(figsize=(4,6))
 gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y=f'XGB_PRED_MEDIAN_{topx}', color='#94B6D2')
-gfg.set(xlabel='RECIST score classification', ylabel=f'top {topx} median XGBoost pred. prob.')
+gfg.set(xlabel='RECIST classification', ylabel=f'top {topx} median XGBoost pred. prob.')
 labels = gfg.get_xticklabels()
 gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
 plt.tight_layout()
 plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/xgb_responder_binary_top{topx}_qscore_{step_size}_boxplot")
 plt.close()
+
+# Antigen load with XGBoost prediction prob threshold as predictor for RECIST
+best_f1 = 0
+best_threshold = 0
+for tr in range(1, 50):
+    pred_labels = (output_df['LOAD_XGB'] > tr).astype(int)
+    f1 = f1_score(recist_score, pred_labels)
+    if f1 > best_f1:
+        best_f1 = f1
+        best_threshold = tr
+print("Load XGB Best Threshold", best_threshold)
+best_threshold = 10
+pred_labels = (output_df['LOAD_XGB'] > best_threshold).astype(int)
+
+accuracy = accuracy_score(recist_score, pred_labels)
+precision = precision_score(recist_score, pred_labels)
+recall = recall_score(recist_score, pred_labels)
+f1 = f1_score(recist_score, pred_labels)
+auc = roc_auc_score(recist_score, output_df['LOAD_XGB'])
+
+print("Load XGB Accuracy:", accuracy)
+print("Load XGB Precision:", precision)
+print("Load XGB Recall:", recall)
+print("Load XGB F1-score:", f1)
+print("Load XGB AUC:", auc)
+
+stat, p_value = wilcoxon(output_df['LOAD_XGB'], output_df['RESPONSE_BINARY'])
+print(f"Load XGB Wilcoxon Statistic: {stat:.4f}, P-Value: {p_value:.4f}")
+
+plt.figure(figsize=(4,6))
+gfg = sns.boxplot(data=output_df, x="RESPONSE_BINARY", y="LOAD_XGB", color='#94B6D2')
+plt.ylim([0, 100])
+gfg.set(xlabel='RECIST classification', ylabel=f'neoepitope load')
+labels = gfg.get_xticklabels()
+gfg.set_xticklabels(['NR' if l.get_text() == '0' else 'R' for l in labels])
+plt.tight_layout()
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/load_xgb_responder_binary_{step_size}_boxplot.png")
+plt.clf()
+
+plt.figure(figsize=(6,4))
+sns.histplot(output_df[output_df['RESPONSE_BINARY'] == 0]['LOAD_XGB'], kde=True, bins=50, color="#94B6D2", binwidth=2, label="NR")
+sns.histplot(output_df[output_df['RESPONSE_BINARY'] == 1]['LOAD_XGB'], kde=True, bins=50, color="#A5AB81", binwidth=2, label="R")
+plt.xlim([0,100])
+plt.legend()
+plt.tight_layout()
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/load_xgb_responder_binary_{step_size}_hist.png")
+plt.clf()

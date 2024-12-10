@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 import numpy as np
 import seaborn as sns
+import sys
+sys.path.append(sys.path[0] + '/../..')
 from helpers.get_data import get_feature_data, get_relevant_features_neofox
 import sys
 from optparse import OptionParser
@@ -75,20 +77,20 @@ def main(argv):
         else:
             feature_df_hist = feature_df
         sns.histplot(feature_df_hist, kde=True, bins=50, color="#94B6D2")
-        for q, c in zip([0.25, 0.5, 0.75], ['#b16639', '#dd8047', '#e4996c']):
+        for q in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]:
             if feature['quantile'] == 'upper':
                 q = 1-q
             quant = np.quantile(feature_df, q)
-            plt.axvline(x = quant, color = c, label = str(q*100) + '% = ' + str(round(quant*100)/100), linewidth=4) 
+            plt.axvline(x = quant, color = '#e4996c', label = str(q*100) + '% = ' + str(round(quant*100)/100), linewidth=4) 
         if options.use_interval and 'interval' in feature:
             plt.xlim(feature['interval'])
         plt.ylabel("#neoepitopes")
         plt.xlabel(None)
-        plt.legend()
+        #plt.legend()
 
         plt.tight_layout()
         
-        plt.savefig(os.path.join(output_dir, "histograms", feature['name'] + '_histogram_' + ('interval_' if options.use_interval and 'interval' in feature else '') + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
+        plt.savefig(os.path.join(output_dir, "histograms", feature['name'] + '_histogram10_' + ('interval_' if options.use_interval and 'interval' in feature else '') + '_'.join(cohorts) + ('_prefilter' if prefilter else '') + '.png'), bbox_inches='tight', dpi=100)
         plt.close()
 if __name__ == "__main__":
     main(sys.argv)

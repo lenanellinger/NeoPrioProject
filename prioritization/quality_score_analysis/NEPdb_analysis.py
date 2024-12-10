@@ -75,12 +75,12 @@ print("F1-score RS QScore:", f1)
 print("AUC RS QScore:", auc)
 
 cm = confusion_matrix(true_labels, pred_rs_labels, labels=[0, 1])
-plt.figure(figsize=(10, 7))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=[0, 1], yticklabels=[0, 1])
+cm_df = pd.DataFrame(cm, columns=['N', 'P'], index=['N', 'P'])
+plt.figure(figsize=(6, 6))
+sns.heatmap(cm_df, annot=True, fmt='d', cmap=sns.light_palette("#7BA79D", as_cmap=True))
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
-plt.title('Confusion Matrix for Rank Sum Quality Score Classifier')
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/CM_RS_{step_size}.png")
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/CM_RS_{step_size}.png", dpi=300)
 plt.close()
 
 # rank sum qscore vs prediction 
@@ -92,8 +92,8 @@ fpr2, tpr2, _ = roc_curve(comparison_df["response"], comparison_df["pred_proba"]
 auc2 = roc_auc_score(comparison_df["response"], comparison_df["pred_proba"])
 
 plt.figure(figsize=(8, 6))
-plt.plot(fpr1, tpr1, label=f'Quality Score (area = {auc1:.2f})', color="#A5AB81", linewidth=5)
-plt.plot(fpr2, tpr2, label=f'XGBoost Classifier (area = {auc2:.2f})', color="#94B6D2", linewidth=5)
+plt.plot(fpr1, tpr1, label=f'Immunogenicity Score (area = {auc1:.2f})', color="#A5AB81", linewidth=5)
+#plt.plot(fpr2, tpr2, label=f'XGBoost Classifier (area = {auc2:.2f})', color="#94B6D2", linewidth=5)
 plt.plot([0, 1], [0, 1], 'k--', label='No Skill')
 plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
@@ -139,12 +139,12 @@ print(f"Spearman Correlation: {correlation}")
 
 # Scatter plot
 plt.figure(figsize=(6, 6))
-plt.scatter(comparison_df["qscore"], comparison_df["pred_proba"], alpha=0.5)
-plt.plot([min(comparison_df["qscore"]), max(comparison_df["qscore"])], [min(comparison_df["qscore"]), max(comparison_df["qscore"])], color='red', linestyle='--')  # y=x line
-plt.xlabel("Rank Sum Quality Score")
+plt.scatter(comparison_df["qscore"], comparison_df["pred_proba"], alpha=1, s=10, marker='o', c='#94B6D2', linewidth=0)
+plt.plot([min(comparison_df["qscore"]), max(comparison_df["qscore"])], [min(comparison_df["qscore"]), max(comparison_df["qscore"])], color='#DD8047', linestyle='--')  # y=x line
+plt.xlabel("Immunogenicity Score")
 plt.ylabel("XGBoost Prediction Probability")
-plt.title(f"Scatter Plot (Spearman r = {correlation.statistic:.2f})")
-plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_NEPdb_scatter_{step_size}.png")
+plt.tight_layout()
+plt.savefig(f"/mnt/storage2/users/ahnelll1/master_thesis/NeoPrioProject/prioritization/quality_score_analysis/images/qscore_xgb_NEPdb_scatter_{step_size}.png", dpi=300)
 
 # Bland-Altman Plot
 mean_pred = (comparison_df["qscore"] + comparison_df["pred_proba"]) / 2
