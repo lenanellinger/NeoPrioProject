@@ -24,13 +24,15 @@ python identification/run_pvacseq.py -i <path_to_vcf_file> --strelka --data_dir 
 
 To annotate neoepitope candidates with neofox, run:
 ```bash
-python prioritization/run_neofox.py -i <vcf_file> --strelka --data_dir <path_to_directory_containing_all_sequencing_data>
+python prioritization/run_neofox.py -s <sample-name> -n <normal_name> --strelka --data_dir <path_to_directory_containing_all_sequencing_data>
 ```
 
-To prioritize neoepitopes within a patient, run the following command:
+To prioritize neoepitopes within a patient using immunogenicity score, run the following command:
 ```bash
 python prioritization/neoantigen_prioritization_rank_sum.py --pvacseq-filtered-output <path_to_pvacseq_filtered_output> --neofox-output <path_to_neofox_output>
 ```
+
+For machine learning model implementation, evaluation and feature importance analysis, see [XGBoost Classifier Model](prioritization/weight_calculation/xgboost_classifier_model.py)
 
 
 ## Prerequisites

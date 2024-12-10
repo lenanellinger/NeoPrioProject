@@ -17,10 +17,11 @@ from neofox.model.conversion import ModelConverter
 def main(argv):
     if len(argv) == 1:
         argv.append("--help")
-    usage = "usage: python run_neofox.py -i vcf_file --strelka --data_dir /mnt/storage1/projects/research/AxelMelanomaPhD"
+    usage = "usage: python run_neofox.py -s <sample_nmae> -n <normal_name> --strelka --data_dir /mnt/storage1/projects/research/AxelMelanomaPhD"
     desc = "Annotates with neofox."
     parser = OptionParser(usage=usage, description=desc)
-    parser.add_option("-i", "--input", action="store", dest="input", type="string", help="Input vcf file")
+    parser.add_option("-s", "--sample", action="store", dest="sample", type="string", help="Sample Name")
+    parser.add_option("-n", "--normal", action="store", dest="normal", type="string", help="Normal Name")
     parser.add_option("--strelka", action="store_true", dest="strelka", default=False,
                       help="Input is produced by strelka")
     parser.add_option("--dragen", action="store_true", dest="dragen", default=False, help="Input is produced by dragen")
@@ -44,11 +45,8 @@ def main(argv):
     reference_folder = ReferenceFolder(organism='human')
     hla_database = reference_folder.get_mhc_database()
 
-    filename = os.path.basename(options.input)
-    f = options.input
-
     output_dir = os.path.join('/mnt/storage2/users/ahnelll1/master_thesis/output', os.path.basename(options.data_dir),
-                              'strelka' if options.strelka else 'dragen', filename.replace('.vcf.gz', ''))
+                              'strelka' if options.strelka else 'dragen', options.sample + '-' + options.normal)
     os.makedirs(output_dir, exist_ok=True)
 
     logging.getLogger('asyncio').setLevel(logging.WARNING)
@@ -61,14 +59,11 @@ def main(argv):
     logger = logging.getLogger(__name__)
 
     # checking if input file is a file
-    if not os.path.isfile(f) or not filename.endswith('.vcf.gz'):
-        logger.info('Input object ' + filename + ' could not be parsed. Should be .vcf.gz')
-        exit(1)
-    logger.info('Processing file ' + filename)
+    logger.info('Processing file ' + options.sample + '-' + options.normal)
 
     # prepare data
-    sample_name = filename.split('-')[0]
-    normal_name = filename.split('-')[1].replace('.vcf.gz', '')
+    sample_name = options.sample
+    normal_name = options.normal
 
     # run neofox
     output_dir_neofox = os.path.join(output_dir, 'neofox')
